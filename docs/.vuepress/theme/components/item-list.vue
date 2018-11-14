@@ -40,7 +40,9 @@ export default {
 
   computed: {
     items () {
-      return this.$page.frontmatter.items
+      let items = this.$page.frontmatter.items
+      localStorage.setItem(this.$page.path.substring(1, this.$page.path.length - 1), JSON.stringify(items))
+      return items
     },
 
     total () {
@@ -67,6 +69,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../styles/config';
 .component-item-list {
   .el-card {
     margin: 10px;
@@ -74,7 +77,7 @@ export default {
 
     &:hover {
       .title {
-        color: #3eaf7c;
+        color: $configColor;
       }
     }
 

@@ -96,12 +96,19 @@ export default {
 </script>
 
 <style lang="scss">
+
 .component-nav-menu {
   display: flex;
   height: 60px;
   padding: 0 50px;
   border-bottom: 1px solid #e0e6ed;
-
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: #fff;
+  transition: background-color 0.3s ease-in-out;
   > .el-menu {
     border: none;
   }
@@ -118,5 +125,10 @@ export default {
     width: 200px;
     padding: 10px 20px;
   }
+}
+@media screen and (min-width: 1400px) {
+    .component-nav-menu{
+      background-color: rgba(255,255,255,0.4);
+    }
 }
 </style>

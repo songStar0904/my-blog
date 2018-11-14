@@ -1,7 +1,8 @@
+@import './config';
 #nprogress {
   pointer-events: none;
   .bar {
-    background: $accentColor;
+    background: $configColor!important;
     position: fixed;
     z-index: 1031;
     top: 0;
@@ -15,7 +16,7 @@
     right: 0px;
     width: 100px;
     height: 100%;
-    box-shadow: 0 0 10px $accentColor 0 0 5px $accentColor;
+    box-shadow: 0 0 10px $configColor 0 0 5px $configColor!important;
     opacity: 1;
     transform: rotate(3deg) translate(0px, -4px);
   }
@@ -31,8 +32,8 @@
     height: 18px;
     box-sizing: border-box;
     border: solid 2px transparent;
-    border-top-color: $accentColor;
-    border-left-color: $accentColor;
+    border-top-color: $configColor!important;
+    border-left-color: $configColor!important;
     border-radius: 50%;
     animation: nprogress-spinner 400ms linear infinite;
   }

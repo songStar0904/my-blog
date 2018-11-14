@@ -34,6 +34,7 @@ export default {
 .page-main {
   display: flex;
   height: 100%;
+  margin-top: 60px;
   flex-direction: column;
 
   .page-container {
@@ -41,7 +42,7 @@ export default {
     width: 100%;
     display: flex;
     flex-direction: row;
-    background: #f6f6f6;
+    background: #fff;
 
     > aside {
       flex: 1;
