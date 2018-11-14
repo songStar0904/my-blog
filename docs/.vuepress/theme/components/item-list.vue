@@ -74,7 +74,7 @@ export default {
 
     &:hover {
       .title {
-        color: #409eff;
+        color: #3eaf7c;
       }
     }
 

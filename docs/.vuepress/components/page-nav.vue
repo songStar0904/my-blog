@@ -1,7 +1,7 @@
 <template>
 	<div class="page-nav">
-		<div class="pre"><a v-if="pre" :href="pre.path">← {{pre.title}}</a></div>
-		<div class="next"><a v-if="next" :href="next.path">{{next.title}} →</a></div>
+		<div class="pre"><a v-if="pre" :href="`/my-blog${pre.path}`">← {{pre.title}}</a></div>
+		<div class="next"><a v-if="next" :href="`/my-blog${next.path}`">{{next.title}} →</a></div>
     </div>
 </template>
 <script>
