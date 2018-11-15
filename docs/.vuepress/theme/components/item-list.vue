@@ -37,12 +37,12 @@ export default {
       pageSizes: [5, 10, 20, 50]
     }
   },
-
+  mounted () {
+    localStorage.setItem(this.$page.path.substring(1, this.$page.path.length - 1), JSON.stringify(this.$page.frontmatter.items))
+  },
   computed: {
     items () {
-      let items = this.$page.frontmatter.items
-      localStorage.setItem(this.$page.path.substring(1, this.$page.path.length - 1), JSON.stringify(items))
-      return items
+      return this.$page.frontmatter.items
     },
 
     total () {

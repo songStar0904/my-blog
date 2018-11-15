@@ -18,7 +18,7 @@ export default {
   	  next: null
   	}
   },
-  created() {
+  mounted() {
   	let pages = JSON.parse(localStorage.getItem(this.type)) || this.$site.pages
   	if ('path' in pages[0]) {
       pages = pages.filter((item, index) => {

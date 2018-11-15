@@ -12,7 +12,6 @@
 import Page from './components/page.vue'
 import NavMenu from './components/nav-menu.vue'
 import sideBar from './components/sideBar.vue'
-
 export default {
   components: {
     Page,
@@ -23,6 +22,18 @@ export default {
     page () {
       return this.$page
     }
+  },
+  mounted () {
+    import('nprogress').then(NProgress => {
+      this.$router.beforeEach((to, from, next) => {
+        NProgress.start()
+        next()
+      })
+      this.$router.afterEach(() => {
+        window.scroll(0,0)
+        NProgress.done()
+      })
+    })
   }
 }
 </script>
