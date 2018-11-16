@@ -2,7 +2,7 @@
 	<div class="page-nav">
 		<div class="pre"><router-link v-if="pre" :to="pre.path">← {{pre.title}}</router-link></div>
 		<div class="next"><router-link v-if="next" :to="next.path">{{next.title}} →</router-link></div>
-    </div>
+  </div>
 </template>
 <script>
 export default {
@@ -43,9 +43,11 @@ export default {
 </script>
 <style lang="scss">
 .page-nav{
-	display: flex;
+	  display: flex;
     justify-content: space-between;
     margin: 20px 0;
     font-size: 18px;
+    padding-top: 1rem;
+    border-top: 1px solid #eaecef;
 }
 </style>

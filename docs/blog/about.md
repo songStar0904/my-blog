@@ -1,6 +1,6 @@
 # 关于
 
-![](./images/bg.jpg)
+![](/my-blog/bg.jpg)
 
 ::: tip  欢迎来到songStar
 :::

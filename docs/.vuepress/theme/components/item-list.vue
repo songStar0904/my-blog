@@ -1,7 +1,8 @@
 <template>
   <div class="component-item-list">
     <el-card
-      v-for="item in currentItems"
+      v-for="(item, index) in currentItems"
+      :key="index"
       shadow="hover"
       @click.native="handlerClick(item.link)">
       <div class="title">{{ item.title }}</div>

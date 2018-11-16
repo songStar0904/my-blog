@@ -7,7 +7,7 @@
 :::
 ## 为项目加入 VuePress
 
-第一步为您的项目安装 VuePress，如果您的项目代码中并没有`package.json`文件，请先执行`npm init`。
+ 第一步为您的项目安装 VuePress，如果您的项目代码中并没有`package.json`文件，请先执行`npm init`。
 
 ```shell
 npm install -D vuepress // 或者 yarn add -D vuepress
@@ -160,6 +160,14 @@ export default ({
 
 
 这样我们在 Markdown 文件编写 Vue 代码的时候就不需要注册注册这些组件，边可以直接在 Markdown 中使用了。
+::: warning 重要！
+在vuepress版本高的时候出现了一个bug，在Markdown编写Vue代码的时候浏览器会报错
+![](/my-blog/vuepress-error.jpg)
+
+[问题复现](https://github.com/vuejs/vuepress/issues/975)
+
+解决方法： `You can work around this for now by adding a slot-key prop to your component (see 2a8712a)`
+:::
 
 ```vue
 // docs/.vuepress/vue/README.md
@@ -173,6 +181,7 @@ export default ({
 
 <script>
 export default {
+  props: ['slot-key'], // 解决Property or method "slotKey" is not defined 问题。
   data () {
     return {
       msg: 'Hello VuePress!'
@@ -192,6 +201,7 @@ export default {
 
 <script>
 export default {
+  props: ['slot-key'],
   data () {
     return {
       msg: 'Hello VuePress!'
@@ -226,7 +236,7 @@ npm run deploy:build
 
 ## 总结
 
-> 相比较 Hexo 而言 VuePress 上手更加容易，功能也更强大，例如在 VuePress 可以注册自定义组件，而且 VuePress 中编写 Vue 和平时一样学习成本几乎为零。所以如果您正在开源一款 Vue 相关的库或是其他项目，您都可以使用 VuePress 作为您的文档编辑工具。虽然并没有完全将 VuePress 内容讲完，学完该篇文章相信你可以对 VuePress 有个大概的了解，您至少可以快速搭建一个博客，如果您想对 VuePress 有更多了解，请参考 Vuepress 中文 API。最后安利一波我正在做的开源项目 [stylus-converter](https://github.com/TaoXuSheng/stylus-converter)，有兴趣的同学可以一起参与，祝各位生活愉快，五一小长假玩的开心。
+> 相比较 Hexo 而言 VuePress 上手更加容易，功能也更强大，例如在 VuePress 可以注册自定义组件，而且 VuePress 中编写 Vue 和平时一样学习成本几乎为零。所以如果您正在开源一款 Vue 相关的库或是其他项目，您都可以使用 VuePress 作为您的文档编辑工具。虽然并没有完全将 VuePress 内容讲完，学完该篇文章相信你可以对 VuePress 有个大概的了解，您至少可以快速搭建一个博客，如果您想对 VuePress 有更多了解，请参考 Vuepress 中文 API。最后安利一波我正在做的开源项目 [stylus-converter](https://github.com/TaoXuSheng/stylus-converter)，有兴趣的同学可以一起参与，祝各位生活愉快，五一小长假玩的开心。 
 
 <template>
   <page-nav type="blog"></page-nav>

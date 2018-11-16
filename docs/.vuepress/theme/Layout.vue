@@ -45,12 +45,12 @@ export default {
 .page-main {
   display: flex;
   height: 100%;
-  margin-top: 60px;
   flex-direction: column;
 
   .page-container {
     flex: 1;
     width: 100%;
+    margin-top: 60px;
     display: flex;
     flex-direction: row;
     background: #fff;

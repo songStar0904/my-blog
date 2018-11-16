@@ -1,5 +1,5 @@
 # vuepress 引入nprogress
-![](./images/nprogress.gif)
+![](/my-blog/nprogress.gif)
 ::: tip  前言
 进度条库是前端中常见的库之一，bootstrap中提供了多种进度条样式。NProgress.js和nanobar.js是两款轻量级的进度条组件，使用简便。轩枫阁用过Nprogress，用于页面刚打开时的页面加载进度显示。
 :::
