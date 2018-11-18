@@ -20,17 +20,52 @@ $mobileSidebarWidth: $sidebarWidth * 0.82;
 @media (max-width: $MQMobile) {
   .sidebar {
     top: 0;
-    padding-top: $navbarHeight;
+    margin-top: 61px;
+    border-right: 1px solid #e0e6ed!important;
     transform: translateX(-100%);
-    transition: $navbarHeight 0.2s ease;
+    transition: all 0.2s ease;
   }
   .page {
     padding-left: 0;
   }
-  .theme-container.sidebar-open {
-    .sidebar {
-      transform: translateX(0);
+  .sidebar-open {
+    transform: translateX(0);
+  }
+  .nav-bar{
+    padding-left: 4rem;
+  }
+  .search-wrapper{
+    .no-focused{
+      .el-input__prefix{
+        right: 0;
+        z-index: -1;
+        .el-icon-search{
+          font-weight: 600;
+        }
+      }
     }
+    input{
+      cursor: pointer;
+      width: 0;
+      border-color: transparent;
+      display: inline-block;
+      // line-height: 2rem;
+      // padding: 0 .5rem 0 2rem;
+      outline: none;
+      transition: all .2s ease;
+      background: transparent;
+    }
+    input:hover{
+      // border-color: transparent;
+    }
+    input:focus{
+      cursor: text;
+      width: 10rem;
+      left: 0;
+    }
+  }
+  .sidebar-button{
+    display: inline-block;
   }
 }
 

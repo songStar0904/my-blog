@@ -96,13 +96,11 @@ export default {
   font-family: -apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif;
 
   .page-content {
-    width: 800px;
     margin: 15px auto;
 
     .custom {
       img {
         width: 100%;
-        max-width: 800px;
         max-height: 500px;
       }
     }

@@ -46,7 +46,7 @@ export default {
 	  display: flex;
     justify-content: space-between;
     margin: 20px 0;
-    font-size: 18px;
+    font-size: 1rem;
     padding-top: 1rem;
     border-top: 1px solid #eaecef;
 }

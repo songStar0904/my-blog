@@ -40,7 +40,6 @@ body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  display: none;
 }
 
 .sidebar {
@@ -57,7 +56,16 @@ body {
   border-right: 1px solid $borderColor;
   overflow-y: auto;
 }
-
+.sidebar-button{
+  cursor: pointer;
+  display: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  position: absolute;
+  padding: .6rem;
+  top: .6rem;
+  left: 1rem;
+}
 .content:not(.custom) {
   max-width: $contentWidth;
   margin: 0 auto;
@@ -199,11 +207,6 @@ th, td {
 }
 
 .theme-container {
-  &.sidebar-open {
-    .sidebar-mask {
-      display: block;
-    }
-  }
   &.no-navbar {
     .content:not(.custom) {
       h1, h2, h3, h4, h5, h6 {
@@ -214,7 +217,11 @@ th, td {
   }
 }
 
-
+@media (max-width: $MQMobile + 1px) {
+  .nav-links{
+    display: none;
+  }
+}
 @media (min-width: $MQMobile + 1px) {
   .theme-container.no-sidebar {
     .sidebar {

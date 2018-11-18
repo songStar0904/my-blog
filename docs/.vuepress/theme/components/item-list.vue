@@ -18,7 +18,8 @@
       </div>
     </el-card>
     <el-pagination
-      layout="total, sizes, prev, pager, next, jumper"
+      :class="{isMobile: isMobile}"
+      :layout="isMobile ? 'prev, pager, next' : 'total, sizes, prev, pager, next, jumper'"
       :total="total"
       :page-size="pageSize"
       :page-sizes="pageSizes"
@@ -35,13 +36,16 @@ export default {
     return {
       currNum: 1,
       pageSize: 5,
-      pageSizes: [5, 10, 20, 50]
+      pageSizes: [5, 10, 20, 50],
+      isMobile: false
     }
   },
   mounted () {
+    this.isMobile = localStorage.getItem('isMobile') == 'true'
     localStorage.setItem(this.$page.path.substring(1, this.$page.path.length - 1), JSON.stringify(this.$page.frontmatter.items))
   },
   computed: {
+
     items () {
       return this.$page.frontmatter.items
     },
@@ -72,6 +76,8 @@ export default {
 <style lang="scss">
 @import '../styles/config';
 .component-item-list {
+  max-width: 800px;
+  margin: 0 auto;
   .el-card {
     margin: 10px;
     cursor: pointer;
@@ -112,6 +118,9 @@ export default {
   .el-pagination {
     margin: 30px 0;
     text-align: right;
+    &.isMobile{
+      text-align: center;
+    }
 
     .btn-next, .btn-prev {
       background-color: #f6f6f6;

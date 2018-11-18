@@ -8,7 +8,7 @@
     "vuepress": "^1.0.0-alpha.22"
   },
   "dependencies": {
-    "element-ui": "^2.3.6",
+    "element-ui": "^2.4.10",
     "html2canvas": "^1.0.0-alpha.12",
     "leancloud-storage": "^3.11.0",
     "nprogress": "^0.2.0",
