@@ -2,6 +2,11 @@
 component: item-list
 comments: true
 items:
+  - title: 前端黑科技：美团网页首帧优化实践
+    description: 自JavaScript诞生以来，前端技术发展非常迅速。移动端白屏优化是前端界面体验的一个重要优化方向，Web 前端诞生了 SSR 、CSR、预渲染等技术。
+    link: web-1
+    date: 2018-11-19
+    img: /my-blog/web-1.png
   - title: 在vuepress中使用valine（评论系统)
     description: 对于大多数人来说都是很简单的问题，自vuepress公开以后，有太多筒子想要vuepress添加评论系统，可是目测大佬们并没有这个想法，不过对于vue.js生态环境而言，给我们很多自己动手的可能。
     link: vuepress-valine

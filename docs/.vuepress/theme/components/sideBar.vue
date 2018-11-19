@@ -1,7 +1,14 @@
 <template>
 	<div class="side-bar">
 		<ul class="sidebar-links" >
-			<li v-for="(item, key) in data"><a :href="`/my-blog${$page.path}#${item.slug}`">{{item.title}}</a></li>
+			<li v-for="(level2, key) in sideData" :key="key">
+				<a :href="`/my-blog${$page.path}#${level2.slug}`" >{{level2.title}}</a>
+				<ul class="sidebar-links" v-if="level2.child">
+					<li v-for="(level3, k) in level2.child" :key="k">
+						<a :href="`/my-blog${$page.path}#${level3.slug}`">{{level3.title}}</a>
+					</li>
+				</ul>
+			</li>
 		</ul>
     </div>
 </template>
@@ -11,6 +18,22 @@ export default {
     data: {
       type: Array
     }
+  },
+  computed: {
+  	sideData () {
+  	  let data = []
+  	  this.data.forEach((item) => {
+  	  	if (item.level === 2) {
+  	  	  data.push(item)
+  	  	} else {
+  	  	  if (!data[data.length - 1].child) {
+  	  	  	data[data.length - 1].child = []
+  	  	  }
+  	  	  data[data.length - 1].child.push(item)
+  	  	}
+  	  })
+  	return data
+  	}
   }
 }
 </script>

@@ -36,15 +36,16 @@ export default {
     return {
       currNum: 1,
       pageSize: 5,
-      pageSizes: [5, 10, 20, 50],
-      isMobile: false
+      pageSizes: [5, 10, 20, 50]
     }
   },
   mounted () {
-    this.isMobile = localStorage.getItem('isMobile') == 'true'
     localStorage.setItem(this.$page.path.substring(1, this.$page.path.length - 1), JSON.stringify(this.$page.frontmatter.items))
   },
   computed: {
+    isMobile () {
+      return localStorage.getItem('isMobile') == 'true'
+    },
 
     items () {
       return this.$page.frontmatter.items

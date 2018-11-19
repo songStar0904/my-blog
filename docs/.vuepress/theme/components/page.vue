@@ -4,9 +4,11 @@
     <div
       v-else
       class="page-content">
-      <item-list v-if="isBlog"></item-list>
+      <ClientOnly>
+        <item-list v-if="isBlog"></item-list>
+      </ClientOnly>
       <Content/>
-      <div class="vcomment" v-if="isBlogItem">
+      <div class="vcomment content" v-if="isBlogItem">
         <div id="vcomments"></div>
       </div>
     </div>
@@ -90,8 +92,9 @@ export default {
 
 <style lang="scss">
 .component-page {
-  width: 100%;
+  max-width: 800px;
   height: 100%;
+  margin: 0 auto;
   // overflow: auto;
   font-family: -apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif;
 

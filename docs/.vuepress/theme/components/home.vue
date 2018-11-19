@@ -1,7 +1,7 @@
 <template>
   <div class="component-home">
     <div class="center">
-      <img class="hero" src="../images/logo.jpg"></img>
+      <img class="hero" src="/my-blog/logo.jpg"></img>
       <div class="title">{{ front.title }}</div>
       <div class="description">
         {{ front.description }}

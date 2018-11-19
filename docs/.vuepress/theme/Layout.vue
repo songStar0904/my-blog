@@ -1,7 +1,9 @@
 <template>
   <div class="page-main">
     <nav-menu></nav-menu>
-    <side-bar v-if="page.headers" :data="page.headers"></side-bar>
+    <ClientOnly>
+      <side-bar v-if="page.headers" :data="page.headers"></side-bar>
+    </ClientOnly>
     <div class="page-container">
       <page></page>
     </div>
