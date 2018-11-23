@@ -9,7 +9,7 @@ publisher: 掘金
 stats: paragraph=53 sentences=2, words=148
 ---
 # 【转】前端黑科技：美团网页首帧优化实践
-转自：[https://juejin.im/post/5bee7dd4e51d451f5b54cbb4](https://juejin.im/post/5bee7dd4e51d451f5b54cbb4)
+转自：[前端黑科技：美团网页首帧优化实践](https://juejin.im/post/5bee7dd4e51d451f5b54cbb4)
 ::: tip 前言
 自JavaScript诞生以来，前端技术发展非常迅速。移动端白屏优化是前端界面体验的一个重要优化方向，Web 前端诞生了 SSR 、CSR、预渲染等技术。在美团支付的前端技术体系里，通过预渲染提升网页首帧优化，从而优化了白屏问题，提升用户体验，并形成了最佳实践。
 :::
@@ -148,6 +148,4 @@ stats: paragraph=53 sentences=2, words=148
 ## 作者简介
 
 寒阳，美团资深研发工程师，多年前端研发经历，负责美团支付钱包团队和美团支付前端基础技术。
-<template>
-  <page-nav type="blog"></page-nav>
-</template>
+

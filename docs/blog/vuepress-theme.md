@@ -99,6 +99,3 @@ export default {
 ### 获取渲染内容
 
 我们可以通过 VuePress 提供的全局组件 `<Content/>` 来渲染当前 `.md` 文件中的内容。
-<template>
-  <page-nav type="blog"></page-nav>
-</template>

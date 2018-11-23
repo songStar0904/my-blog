@@ -4,6 +4,3 @@
 
 ::: tip  欢迎来到songStar
 :::
-<template>
-  <page-nav type="blog"></page-nav>
-</template>

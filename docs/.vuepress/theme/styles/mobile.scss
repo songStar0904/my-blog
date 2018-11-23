@@ -11,13 +11,45 @@ $mobileSidebarWidth: $sidebarWidth * 0.82;
   .page {
     padding-left: $mobileSidebarWidth;
   }
-  .content:not(.custom) {
-    // padding: 2rem;
+  .page-content, .theme-container>.content {
+    padding: 1.5rem;
+  }
+  .content {
+    pre, pre[class*="language-"] {
+      border-radius: 0;
+      margin: .85rem -1.5rem;
+    }
   }
 }
 
 
 @media (max-width: $MQMobile) {
+  .component-item-list {
+    .title{
+      display: none;
+    }
+    .card-content {
+      >.description{
+        display: none;
+      }
+      >.image{
+        margin: 0 1.2rem 0 0!important;
+        height: 40%!important;
+      }
+      >.mobile-title{
+        display: flex;
+        font-size: 1rem;
+        font-weight: 600;
+        align-items: center;
+      }
+    }
+    
+  }
+  .content {
+    h1:first-child{
+      // margin-top: -1.5rem!important;
+    }
+  }
   .sidebar {
     top: 0;
     margin-top: 61px;
@@ -32,7 +64,7 @@ $mobileSidebarWidth: $sidebarWidth * 0.82;
     transform: translateX(0);
   }
   .nav-bar{
-    padding-left: 4rem;
+    padding: 0 0.6rem 0 3rem;
   }
   .search-wrapper{
     .no-focused{
@@ -49,14 +81,9 @@ $mobileSidebarWidth: $sidebarWidth * 0.82;
       width: 0;
       border-color: transparent;
       display: inline-block;
-      // line-height: 2rem;
-      // padding: 0 .5rem 0 2rem;
       outline: none;
       transition: all .2s ease;
       background: transparent;
-    }
-    input:hover{
-      // border-color: transparent;
     }
     input:focus{
       cursor: text;
@@ -74,13 +101,18 @@ $mobileSidebarWidth: $sidebarWidth * 0.82;
   h1 {
     font-size: 1.9rem;
   }
-  .content:not(.custom) {
-    padding: 0;
+  table{
+    max-width: $MQMobileNarrow;
+    margin: .85rem -1rem;
   }
   .content {
     pre, pre[class*="language-"] {
-      margin: 0;
       border-radius: 0;
+      margin: .85rem -1rem;
     }
   }
+  .page-content, .theme-container>.content {
+    padding: 1rem;
+  }
+  
 }

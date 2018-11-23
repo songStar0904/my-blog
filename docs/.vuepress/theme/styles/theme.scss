@@ -64,14 +64,17 @@ body {
   position: absolute;
   padding: .6rem;
   top: .6rem;
-  left: 1rem;
+  left: .6rem;
+}
+.page-content, .theme-container>.content {
+   padding: 1rem 2.5rem;
 }
 .content:not(.custom) {
   max-width: $contentWidth;
   margin: 0 auto;
-  padding: 1rem 2.5rem;
+  
   > *:first-child {
-    // margin-top: $navbarHeight;
+    margin-top: $navbarHeight;
   }
   a:hover {
     text-decoration: underline;
@@ -134,7 +137,8 @@ h1, h2, h3, h4, h5, h6 {
     padding-top: $navbarHeight + 1rem;
     margin-bottom: 0;
     &:first-child {
-      margin-top: -1.5rem;
+      padding-top: 0;
+      margin-top: 0;
       margin-bottom: 1rem;
       + p, + pre, + .custom-block {
         margin-top: 2rem;
@@ -176,6 +180,9 @@ code, kbd {
   font-family: source-code-pro Menlo Monaco Consolas, "Courier New" monospace;
 }
 
+p{
+  overflow: auto;
+}
 p, ul, ol {
   line-height: 1.7;
 }
@@ -188,6 +195,9 @@ hr {
 table {
   border-collapse: collapse;
   margin: 1rem 0;
+  max-width: 100%;
+  display: block;
+  overflow-x: auto;
 }
 
 tr {
@@ -198,6 +208,7 @@ tr {
 }
 
 th, td {
+  min-width: 8rem;
   border: 1px solid #dfe2e5;
   padding: 0.6em 1em;
 }
@@ -207,6 +218,9 @@ th, td {
 }
 
 .theme-container {
+  .content:not(.custom) > h1:first-child{
+    margin-top: 0;
+  }
   &.no-navbar {
     .content:not(.custom) {
       h1, h2, h3, h4, h5, h6 {

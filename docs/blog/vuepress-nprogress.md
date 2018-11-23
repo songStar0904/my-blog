@@ -99,6 +99,3 @@ export default {
 - 作为全球最大的同性交友网站**github**，真的算是一个最具权威，效率最高的解决问题的平台了。
 - **github**多数还是英文比较多，所以学英语学英语学英语。
 :::
-<template>
-  <page-nav type="blog"></page-nav>
-</template>

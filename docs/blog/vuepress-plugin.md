@@ -114,6 +114,3 @@ module.exports = {
 ```
 
 :::
-<template>
-  <page-nav type="blog"></page-nav>
-</template>

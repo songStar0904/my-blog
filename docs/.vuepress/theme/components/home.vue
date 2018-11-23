@@ -60,6 +60,13 @@ export default {
       height: 120px;
       border-radius: 60px;
       border: 4px solid #f2f6fc;
+      &:hover{
+        transform: rotate(666turn);
+        transition-delay: 1s;
+        transition-property: all;
+        transition-duration: 59s;
+        transition-timing-function: cubic-bezier(.34,0,.84,1);
+      }
     }
 
     .title {

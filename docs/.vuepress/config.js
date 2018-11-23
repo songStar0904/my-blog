@@ -14,15 +14,13 @@ module.exports = {
     nav: [
         { text: 'Home', link: '/' },
         { text: 'Blog', link: '/blog/' },
-        // {
-        //     text: '博文',
-        //     items: [
-        //         { text: 'blog', link: '/blog/' },
-        //         { text: 'ios', link: '/ios/' },
-        //         { text: 'Web', link: '/web/' }
-        //     ]
-        // },
-        { text: 'About', link: '/about/' },
+        {
+            text: 'docs',
+            items: [
+                { text: 'es6', link: '/docs/es6/' }
+            ]
+        },
+        // { text: 'About', link: '/about/' },
         { text: 'Github', link: 'https://www.github.com/songstar0904' },
     ],
     sidebarDepth: 2,

@@ -8,6 +8,7 @@
       <div class="title">{{ item.title }}</div>
       <div class="card-content">
         <img v-if="item.img" :src="item.img" class="image">
+        <div class="mobile-title">{{ item.title }}</div>
         <div class="description">
           {{ item.description }}
         </div>
@@ -84,7 +85,7 @@ export default {
     cursor: pointer;
 
     &:hover {
-      .title {
+      .title, .mobile-title {
         color: $configColor;
       }
     }
@@ -93,6 +94,9 @@ export default {
       font-size: 20px;
       font-weight: bold;
       padding-bottom: 8px;
+    }
+    .mobile-title {
+      display: none;
     }
 
     .date {

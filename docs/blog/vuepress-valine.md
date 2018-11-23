@@ -69,6 +69,4 @@ watch: {
 ...
 </script>
 ```
-<template>
-  <page-nav type="blog"></page-nav>
-</template>
+

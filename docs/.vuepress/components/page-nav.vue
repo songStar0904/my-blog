@@ -19,16 +19,18 @@ export default {
   	}
   },
   mounted() {
+    let type = this.type == 'blog' ? '/blog/' : `/docs/${this.type}/`
   	let pages = JSON.parse(localStorage.getItem(this.type)) || this.$site.pages
-  	if ('path' in pages[0]) {
+    // console.log(type, pages)
+  	if ('path' in pages[0] && this.type === 'blog') {
       pages = pages.filter((item, index) => {
-  	    return item.path.indexOf(`/${this.type}/`) >= 0
+  	    return item.path.indexOf(type) >= 0
   	  })
   	  pages.shift()
   	}
   	pages.map((item, index) => {
   	  if (!item.path && item.link) {
-  	  	item.path = `/${this.type}/${item.link}.html`
+  	  	item.path = `${type}${item.link}.html`
   	  }
       if (item.path === this.$route.path) {
   	    this.current = index

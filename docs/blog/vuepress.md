@@ -238,6 +238,3 @@ npm run deploy:build
 
 > 相比较 Hexo 而言 VuePress 上手更加容易，功能也更强大，例如在 VuePress 可以注册自定义组件，而且 VuePress 中编写 Vue 和平时一样学习成本几乎为零。所以如果您正在开源一款 Vue 相关的库或是其他项目，您都可以使用 VuePress 作为您的文档编辑工具。虽然并没有完全将 VuePress 内容讲完，学完该篇文章相信你可以对 VuePress 有个大概的了解，您至少可以快速搭建一个博客，如果您想对 VuePress 有更多了解，请参考 Vuepress 中文 API。最后安利一波我正在做的开源项目 [stylus-converter](https://github.com/TaoXuSheng/stylus-converter)，有兴趣的同学可以一起参与，祝各位生活愉快，五一小长假玩的开心。 
 
-<template>
-  <page-nav type="blog"></page-nav>
-</template>

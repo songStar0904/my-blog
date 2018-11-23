@@ -7,8 +7,9 @@
       <ClientOnly>
         <item-list v-if="isBlog"></item-list>
       </ClientOnly>
-      <Content/>
-      <div class="vcomment content" v-if="isBlogItem">
+      <Content :class="{p0: isBlog}"/>
+      <page-nav :type="type" v-if="isItem"></page-nav>
+      <div class="vcomment content" v-if="isItem">
         <div id="vcomments"></div>
       </div>
     </div>
@@ -27,6 +28,7 @@
 import html2canvas from 'html2canvas'
 import Home from './Home.vue'
 import ItemList from './item-list.vue'
+import pageNav from '../../components/page-nav.vue'
 import 'prismjs/themes/prism-tomorrow.css'
 import 'prismjs/prism.js'
 
@@ -41,17 +43,21 @@ export default {
     isBlog () {
       return this.$route.path === '/blog/'
     },
-    isBlogItem () {
+    isItem () {
       return this.$page.path.indexOf('.html') !== -1
     },
     isResume () {
       return this.$route.path === '/my/'
+    },
+    type () {
+      let paths = this.$route.path.split('/')
+      return paths[paths.length - 2]
     }
   },
   watch: {
     '$route' (to, from) {
         if(to.path !==  from.path){
-          this.isBlogItem && this.$router.go(0)
+          this.isItem && this.$router.go(0)
         }else{
            // nothing
        }
@@ -62,7 +68,6 @@ export default {
   },
   methods: {
     initComment () {
-      console.log('ccc')
       const Valine = require('valine')
       window.AV = require('leancloud-storage')
 
@@ -70,10 +75,11 @@ export default {
         el: '#vcomments' ,
         appId: 'GpBL6hIkIyhvrV2k67M2dIGy-gzGzoHsz',// your appId
         appKey: 'BNbBiXN3fo2YmOVRGqQwDcwK', // your appKey
-        notify:false, 
-        verify:false, 
+        notify: false, 
+        verify: false, 
+        visitor: true, // 阅读量统计
         avatar:'monsterid', 
-        placeholder: '欢迎留言分享您的想法...' 
+        placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!' 
       })
     },
     downloadResume () {
@@ -85,14 +91,19 @@ export default {
 
   components: {
     Home,
-    ItemList
+    ItemList,
+    pageNav
   }
 }
 </script>
 
 <style lang="scss">
+.p0{
+  padding: 0!important;
+}
 .component-page {
   max-width: 800px;
+  width: 100%;
   height: 100%;
   margin: 0 auto;
   // overflow: auto;
