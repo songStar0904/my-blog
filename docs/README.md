@@ -10,6 +10,6 @@ nav:
   - text: github
     link: https://github.com/songStar0904
   - text: 关于我
-    link: /my/
+    link: /about/
 ---
 

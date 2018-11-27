@@ -20,7 +20,7 @@ module.exports = {
                 { text: 'es6', link: '/docs/es6/' }
             ]
         },
-        // { text: 'About', link: '/about/' },
+        { text: 'About', link: '/about/' },
         { text: 'Github', link: 'https://www.github.com/songstar0904' },
     ],
     sidebarDepth: 2,

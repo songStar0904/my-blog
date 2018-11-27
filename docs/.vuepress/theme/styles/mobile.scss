@@ -94,6 +94,9 @@ $mobileSidebarWidth: $sidebarWidth * 0.82;
   .sidebar-button{
     display: inline-block;
   }
+  iframe{
+    height: 350px;
+  }
 }
 
 
@@ -104,6 +107,9 @@ $mobileSidebarWidth: $sidebarWidth * 0.82;
   table{
     max-width: $MQMobileNarrow;
     margin: .85rem -1rem;
+  }
+  iframe{
+    height: 230px;
   }
   .content {
     pre, pre[class*="language-"] {
