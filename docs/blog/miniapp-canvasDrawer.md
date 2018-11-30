@@ -54,13 +54,13 @@ git clone https://github.com/kuckboy1994/mp_canvas_drawer
 - 把 `components` 中的 `canvasdrawer` 拷贝到自己项目下。
 - 在使用页面注册组件
 
-  ```json
+```json
   {
     "usingComponents": {
       "canvasdrawer": "/components/canvasdrawer/canvasdrawer"
     }
   }
-  ```
+```
 
 - 在页面 `**.wxml` 文件中加入如下代码
 

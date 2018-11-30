@@ -1,7 +1,7 @@
 ---
 home: true
 title: songStar
-description: 前端小白菜
+description: 前台端茶师
 component: home
 bgimg: ./my-blog/docs/bg.jpeg
 nav:

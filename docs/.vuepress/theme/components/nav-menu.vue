@@ -152,7 +152,7 @@ export default {
     padding: 10px 0;
   }
 }
-@media screen and (min-width: 1400px) {
+@media screen and (min-width: 1200px) {
     .component-nav-menu{
       background-color: rgba(255,255,255,0.4);
     }

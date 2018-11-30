@@ -38,7 +38,7 @@ export default {
 }
 </script>
 <style lang="scss">
-@media screen and (max-width: 1400px) {
+@media screen and (max-width: 1200px) {
     .side-bar{
         display: none;
     }
@@ -47,6 +47,8 @@ export default {
 	position: fixed;
 	left: 0;
 	top: 60px;
+  bottom: 0;
+  overflow-y: auto;
 	width: 250px;
 	padding: 30px 0 0 30px;
 	>ul{

@@ -2,6 +2,21 @@
 component: item-list
 comments: true
 items:
+  - title: H5 前端性能测试实践
+    description: H5 页面发版灵活，轻量，又具有跨平台的特性，在业务上有很多应用场景。但是同时对比 App，H5 的性能表现总是要逊色一筹，比如页面打开往往会出现白屏，滑动列表等交互场景下也不如 Native 页面流畅。
+    link: web-2
+    date: 2018-11-30
+    img: https://segmentfault.com/img/bVbfY68?w=1836&h=788
+  - title: Flex 布局语法教程
+    description: 2009年，W3C提出了一种新的方案—-Flex布局，可以简便、完整、响应式地实现各种页面布局。目前，它已经得到了所有浏览器的支持，这意味着，现在就能很安全地使用这项功能。
+    link: flex-grammar
+    date: 2018-11-28
+    img: //www.runoob.com/wp-content/uploads/2015/07/5a7d00514af1e464221c677c15e8e990.png
+  - title: 小程序swiper改造
+    description: 一个简单的实现卡片式swiper的方法。
+    link: miniapp-swiper
+    date: 2018-11-27
+    img: /my-blog/swiper.gif
   - title: 微信小程序：一个json帮你完成分享朋友圈图片
     description: 最近在做小程序，发现制作分享到朋友圈图片是每个项目必须的。遇到坑比较多，写起来也比较繁琐，也没有找到类似组件，所以就自己动手写了一个。
     link: miniapp-canvasDrawer
