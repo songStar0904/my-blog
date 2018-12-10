@@ -1,6 +1,7 @@
 <template>
   <div class="page-main">
     <nav-menu></nav-menu>
+    <img class="bg" src="/my-blog/bg_home.jpg" alt="">
     <ClientOnly>
       <side-bar v-if="page.headers" :data="page.headers"></side-bar>
     </ClientOnly>
@@ -48,7 +49,9 @@ export default {
   display: flex;
   height: 100%;
   flex-direction: column;
-
+  .bg{
+    height: 350px;
+  }
   .page-container {
     flex: 1;
     width: 100%;

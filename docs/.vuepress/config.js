@@ -4,7 +4,7 @@ module.exports = {
   dest: './dist',    // 设置输出目录
   base: '/my-blog/', // 设置站点根路径
   repo: 'https://github.com/songStar0904/my-blog', // 添加 github 链接
-  plugins: ['@vuepress/back-to-top', '@vuepress/active-header-links', '@vuepress/last-updated'],
+  plugins: ['@vuepress/back-to-top', '@vuepress/active-header-links'],
   head: [
     ['meta', { name: 'viewport', content: 'width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no' }],
     ['link', { rel: 'icon', href: 'logo.jpg' }]

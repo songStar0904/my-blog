@@ -6,7 +6,7 @@
 ## 目录
 <template>
     <ol>
-        <li v-for="item in data"><a :href="item.path">{{item.title}}</a></li>
+        <li v-for="item in data"><a :href="`/my-blog${item.path}`">{{item.title}}</a></li>
     </ol>
 </template>
 

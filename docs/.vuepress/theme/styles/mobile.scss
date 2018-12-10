@@ -45,6 +45,10 @@ $mobileSidebarWidth: $sidebarWidth * 0.82;
     }
     
   }
+  // 标签
+  .tags{
+    border-bottom: 1px solid $borderColor;
+  }
   .content {
     h1:first-child{
       // margin-top: -1.5rem!important;

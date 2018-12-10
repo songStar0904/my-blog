@@ -121,7 +121,7 @@ export default {
 </script>
 
 <style lang="scss">
-
+@import '../styles/config';
 .component-nav-menu {
   display: flex;
   height: 60px;
@@ -152,7 +152,7 @@ export default {
     padding: 10px 0;
   }
 }
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 1600px) {
     .component-nav-menu{
       background-color: rgba(255,255,255,0.4);
     }

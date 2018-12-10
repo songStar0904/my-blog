@@ -4,12 +4,13 @@
     <div
       v-else
       class="page-content">
+
       <ClientOnly>
         <item-list v-if="isBlog"></item-list>
       </ClientOnly>
       <Content :class="{p0: isBlog}"/>
       <page-nav :type="type" v-if="isItem"></page-nav>
-      <div class="vcomment content" v-if="isItem">
+      <div class="vcomment content" v-if="isItem || isAbout">
         <div id="vcomments"></div>
       </div>
     </div>
@@ -44,7 +45,10 @@ export default {
       return this.$route.path === '/blog/'
     },
     isItem () {
-      return this.$page.path.indexOf('.html') !== -1
+      return this.$page.path.endsWith('.html')
+    },
+    isAbout () {
+      return this.$page.path.endsWith('/about/')
     },
     isResume () {
       return this.$route.path === '/my/'

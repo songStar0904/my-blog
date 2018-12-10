@@ -1,5 +1,8 @@
 <template>
   <div class="component-item-list">
+    <ul class="tags">
+      <li class="tag" v-for="(tag, index) in tags" :key="index":class="{active: tag.id === currentTag}" @click="currentTag = tag.id">{{tag.value}}</li>
+    </ul>
     <el-card
       v-for="(item, index) in currentItems"
       :key="index"
@@ -37,7 +40,27 @@ export default {
     return {
       currNum: 1,
       pageSize: 5,
-      pageSizes: [5, 10, 20, 50]
+      pageSizes: [5, 10, 20, 50],
+      currentTag: 0,
+      tags: [{
+        id: 0,
+        value: '全部文章'
+      }, {
+        id: 1,
+        value: 'Web开发'
+      }, {
+        id: 2,
+        value: 'VueJS'
+      }, {
+        id: 3,
+        value: '微信小程序'
+      }, {
+        id: 4,
+        value: 'JavaScript'
+      }, {
+        id: 5,
+        value: '面试经验'
+      }]
     }
   },
   mounted () {
@@ -49,7 +72,15 @@ export default {
     },
 
     items () {
-      return this.$page.frontmatter.items
+      let items = this.$page.frontmatter.items
+      let {currentTag, tags} = this
+      if (currentTag === 0) {
+        return items
+      } else {
+        return items.filter(item => {
+          return item.keywords && item.keywords.includes(tags[currentTag].value)
+        })
+      }
     },
 
     total () {
@@ -80,6 +111,27 @@ export default {
 .component-item-list {
   max-width: 800px;
   margin: 0 auto;
+  .tags{
+    display: flex;
+    white-space: nowrap;
+    overflow-x: auto;
+    padding-left: 0;
+    .tag{
+      list-style: none;
+      padding: 3px 10px;
+      margin-right: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 2px;
+      cursor: pointer;
+      &:hover{
+        color: $configColor;
+      }
+      &.active{
+        background: $configColor;
+        color: #fff;
+      }
+    }
+  }
   .el-card {
     margin: 10px;
     cursor: pointer;
