@@ -2,6 +2,42 @@
 component: item-list
 comments: true
 items:
+  - title: 重绘(repaint)重排(reflow)与优化
+    description: 很多人都知道要减少浏览器的重排和重绘，但对其中的具体原理以及如何具体操作并不是很了解，当突然提起这个话题的时候，还是会一脸懵逼。
+    link: web-3
+    keywords: Web开发
+    date: 2018-12-25
+    img: https://user-gold-cdn.xitu.io/2018/12/16/167b642d014afaf1?imageView2/0/w/1280/h/960/format/webp/ignore-error/1
+  - title: 微信小程序自定义导航栏
+    description: 自定义导航栏让你的小程序高大上。
+    link: miniapp-navigation
+    keywords: 微信小程序
+    date: 2018-12-21
+    img: /my-blog/navigation-img.jpg
+  - title: 只需两步获取任何微信小程序源码
+    description: 很想一窥源码，查看究竟，看看大厂的前端大神们是如何规避了小程序的各种奇葩的坑。
+    link: miniapp-copyCode
+    keywords: 微信小程序
+    date: 2018-12-20
+    img: https://pic3.zhimg.com/v2-42e2fbf96f17f691e179536188546cb6_1200x500.jpg
+  - title: Vue深入响应式原理
+    description: 现在是时候深入一下了！Vue 最独特的特性之一，是其非侵入性的响应式系统。
+    link: vue-reactivity
+    keywords: VueJS
+    date: 2018-12-19
+    img: https://cn.vuejs.org/images/data.png
+  - title: 【译】22个必备的CSS小技巧
+    description: 大家好，今天我们将会介绍一些非常实用的CSS小技巧，让我们开始吧！
+    link: css-1
+    keywords: CSS
+    date: 2018-12-13
+    img: https://img.zcool.cn/community/032df055754ce7c6ac72525ae79923d.jpg@260w_195h_1c_1e_1o_100sh.jpg
+  - title: 【译】你不知道的Chrome调试工具技巧
+    description: 【译】你不知道的Chrome调试工具技巧 第六天：command 菜单
+    link: tool-chrome
+    keywords: 开发工具
+    date: 2018-12-11
+    img: https://user-gold-cdn.xitu.io/2018/12/11/1679a57d559a050e?imageView2/1/w/1304/h/734/q/85/format/webp/interlace/1
   - title: 图解JavaScript中数组迭代的方法
     description: 一张图看懂JavaScript中数组的迭代方法：forEach、map、filter、reduce、every、some
     link: js-arrayBase

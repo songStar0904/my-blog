@@ -1,7 +1,7 @@
 <template>
   <div class="page-main">
     <nav-menu></nav-menu>
-    <img class="bg" src="/my-blog/bg_home.jpg" alt="">
+    <!-- <img class="bg" src="/my-blog/bg_home.jpg" alt=""> -->
     <ClientOnly>
       <side-bar v-if="page.headers" :data="page.headers"></side-bar>
     </ClientOnly>

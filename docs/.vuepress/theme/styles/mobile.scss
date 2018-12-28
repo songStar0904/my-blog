@@ -47,6 +47,7 @@ $mobileSidebarWidth: $sidebarWidth * 0.82;
   }
   // 标签
   .tags{
+    flex-wrap: nowrap!important;
     border-bottom: 1px solid $borderColor;
   }
   .content {
