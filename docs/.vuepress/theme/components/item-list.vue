@@ -70,14 +70,18 @@ export default {
         },
         {
           id: 5,
-          value: "CSS"
+          value: "TypeScript"
         },
         {
           id: 6,
-          value: "开发工具"
+          value: "CSS"
         },
         {
           id: 7,
+          value: "开发工具"
+        },
+        {
+          id: 8,
           value: "面试经验"
         }
       ]

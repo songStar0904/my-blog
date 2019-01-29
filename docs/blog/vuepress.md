@@ -1,10 +1,12 @@
 <!-- [[toc]] -->
+
 # 【转】VuePress 快速踩坑
 
 ![](https://pic4.zhimg.com/v2-7520d66da30349b0c348a03846985d47_1200x500.jpg)
 
 ::: tip 最近有个开源项目非常火，那就是尤小右开发的 VuePress，VuePress 可以让您非常方便的在 Markdown 文档中编写 Vue 代码，并且 VuePress 对编译后的 HTML 文件做了一些针对搜索引擎的优化。另外 VuePress 针对 Markdown 文件做了一些扩展使其功能更加强大，本文将围绕搭建一个 Github 的静态博客展开。
 :::
+
 ## 为项目加入 VuePress
 
  第一步为您的项目安装 VuePress，如果您的项目代码中并没有`package.json`文件，请先执行`npm init`。
@@ -69,6 +71,7 @@ module.exports = {
 
 ::: tip 在 VuePress 中如果想要为您的网站添加导航栏，可以通过设置`themeConfig.nav`来添加导航链接，通过设置`themeConfig.sidebar`属性来添加侧边栏。如果您的导航是一个下拉列表，可以通过`items`属性来设置。
 :::
+
 ```javascript
 // dcos/.vuepress/config.js
 module.exports = {
@@ -132,6 +135,7 @@ module.exports = {
 
 ::: tip 在 VuePress 中编写 Vue 代码，和我们通常的编写单文件的方式一致，有些时候我们有可能需要使用 Vue 的 UI 组件库。例如 [Element](http://element.eleme.io/#/)，[Mint](http://mint-ui.github.io/docs/#/!/zh-cn) 等，通常我们在项目中使用这些 UI 组件库的时候，我们都会在`main.js`或`botostrap.js`文件中统一注册。好在 VuePress 中也支持这种功能，我们可以通过创建一个`.vuepress/enhanceApp.js`文件来做一些应用级别的配置，这个文件`exprot default`一个钩子函数，在这个钩子中你可以做一些特殊处理，例如添加全局路由钩子，注册外部组件库。
 :::
+
 ```javascript
 // .vuepress/enhanceApp.js
 // 全局注册 Element 组件库
@@ -157,7 +161,6 @@ export default ({
   <div class="cpt-hello">Hello VuePress Demo</div>
 </template>
 ```
-
 
 这样我们在 Markdown 文件编写 Vue 代码的时候就不需要注册注册这些组件，边可以直接在 Markdown 中使用了。
 ::: warning 重要！
@@ -209,10 +212,12 @@ export default {
   }
 }
 </script>
+
 ## 部署到 Github pages
 
 ::: tip 当我们将文档写好后就到了我们最关心的地方了，怎么将打包后的代码推送到远程仓库的 gh-pages 分支上，网上应该有很多文章描述怎么做，但是很多方法比较麻烦，还好有工具已经为我们解决了这个麻烦了。
 :::
+
 ```javascript
 // 1.下载 gh-pages 包
 npm install -D gh-pages
@@ -235,5 +240,4 @@ npm run deploy:build
 
 ## 总结
 
-> 相比较 Hexo 而言 VuePress 上手更加容易，功能也更强大，例如在 VuePress 可以注册自定义组件，而且 VuePress 中编写 Vue 和平时一样学习成本几乎为零。所以如果您正在开源一款 Vue 相关的库或是其他项目，您都可以使用 VuePress 作为您的文档编辑工具。虽然并没有完全将 VuePress 内容讲完，学完该篇文章相信你可以对 VuePress 有个大概的了解，您至少可以快速搭建一个博客，如果您想对 VuePress 有更多了解，请参考 Vuepress 中文 API。最后安利一波我正在做的开源项目 [stylus-converter](https://github.com/TaoXuSheng/stylus-converter)，有兴趣的同学可以一起参与，祝各位生活愉快，五一小长假玩的开心。 
-
+> 相比较 Hexo 而言 VuePress 上手更加容易，功能也更强大，例如在 VuePress 可以注册自定义组件，而且 VuePress 中编写 Vue 和平时一样学习成本几乎为零。所以如果您正在开源一款 Vue 相关的库或是其他项目，您都可以使用 VuePress 作为您的文档编辑工具。虽然并没有完全将 VuePress 内容讲完，学完该篇文章相信你可以对 VuePress 有个大概的了解，您至少可以快速搭建一个博客，如果您想对 VuePress 有更多了解，请参考 Vuepress 中文 API。最后安利一波我正在做的开源项目 [stylus-converter](https://github.com/TaoXuSheng/stylus-converter)，有兴趣的同学可以一起参与，祝各位生活愉快，五一小长假玩的开心。

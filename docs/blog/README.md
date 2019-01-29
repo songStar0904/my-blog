@@ -2,6 +2,18 @@
 component: item-list
 comments: true
 items:
+  - title: 5分钟上手TypeScript
+    description: 让我们使用TypeScript来创建一个简单的Web应用。
+    link: typescript-in-5-minutes
+    keywords: TypeScript
+    date: 2019-1-8
+    img: /my-blog/typescript.jpg
+  - title: Awesome Demos from 2018
+    description: A collection of our favorite demos and experiments from 2018.
+    link: awesome-demos-from-2018
+    keywords: CSS
+    date: 2019-1-3
+    img: https://codropspz-tympanus.netdna-ssl.com/codrops/wp-content/uploads/2018/12/Demos2018_featured.jpg
   - title: 重绘(repaint)重排(reflow)与优化
     description: 很多人都知道要减少浏览器的重排和重绘，但对其中的具体原理以及如何具体操作并不是很了解，当突然提起这个话题的时候，还是会一脸懵逼。
     link: web-3

@@ -17,7 +17,9 @@ module.exports = {
         {
             text: 'docs',
             items: [
-                { text: 'es6', link: '/docs/es6/' }
+                { text: 'es6', link: '/docs/es6/'},
+                { text: 'typescript', link: '/docs/typescript/'},
+                { text: 'closure', link: '/docs/closure/'}
             ]
         },
         { text: 'About', link: '/about/' },

@@ -32,7 +32,7 @@ export default {
   	  if (!item.path && item.link) {
   	  	item.path = `${type}${item.link}.html`
   	  }
-      if (item.path === this.$route.path) {
+      if (this.$route.path.indexOf(item.path) !== -1) {
   	    this.current = index
   	  }
   	})
