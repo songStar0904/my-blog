@@ -7,5 +7,8 @@ const summary = [{
   }, {
     title: '接口',
     path: 'interfaces.html'
+  }, {
+    title: '类',
+    path: 'classes.html'
   }]
 export default summary
