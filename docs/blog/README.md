@@ -2,6 +2,12 @@
 component: item-list
 comments: true
 items:
+  - title: 微信如何打通会员卡
+    description: 将商家与微信的会员卡打通
+    link: wechat-card
+    keywords: wechat
+    date: 2019-2-19
+    img: /my-blog/wechat/0.jpg
   - title: 5分钟上手TypeScript
     description: 让我们使用TypeScript来创建一个简单的Web应用。
     link: typescript-in-5-minutes
