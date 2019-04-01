@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>【转】VuePress 主题踩坑 | songStar</title>
+    <meta name="description" content="songstar的博客">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
+  <link rel="icon" href="logo.jpg">
+    
+    <link rel="preload" href="/my-blog/assets/css/0.styles.225419fd.css" as="style"><link rel="preload" href="/my-blog/assets/js/app.30cdb09a.js" as="script"><link rel="preload" href="/my-blog/assets/js/6.174b3b94.js" as="script"><link rel="preload" href="/my-blog/assets/js/36.e32b157f.js" as="script"><link rel="prefetch" href="/my-blog/assets/js/10.f20c0927.js"><link rel="prefetch" href="/my-blog/assets/js/11.d67f5174.js"><link rel="prefetch" href="/my-blog/assets/js/12.bc7c38a8.js"><link rel="prefetch" href="/my-blog/assets/js/13.221a1f7d.js"><link rel="prefetch" href="/my-blog/assets/js/14.c6063d89.js"><link rel="prefetch" href="/my-blog/assets/js/15.f2fee083.js"><link rel="prefetch" href="/my-blog/assets/js/16.dfe9f821.js"><link rel="prefetch" href="/my-blog/assets/js/17.3e985de6.js"><link rel="prefetch" href="/my-blog/assets/js/18.1b74d2f2.js"><link rel="prefetch" href="/my-blog/assets/js/19.8d6b81d7.js"><link rel="prefetch" href="/my-blog/assets/js/2.ed1d4fc5.js"><link rel="prefetch" href="/my-blog/assets/js/20.6e8e835e.js"><link rel="prefetch" href="/my-blog/assets/js/21.d05ca4f2.js"><link rel="prefetch" href="/my-blog/assets/js/22.ce61055d.js"><link rel="prefetch" href="/my-blog/assets/js/23.80acbab5.js"><link rel="prefetch" href="/my-blog/assets/js/24.7338ad14.js"><link rel="prefetch" href="/my-blog/assets/js/25.5a1d1144.js"><link rel="prefetch" href="/my-blog/assets/js/26.5c154259.js"><link rel="prefetch" href="/my-blog/assets/js/27.29708b84.js"><link rel="prefetch" href="/my-blog/assets/js/28.7b6c8c97.js"><link rel="prefetch" href="/my-blog/assets/js/29.3ea540d2.js"><link rel="prefetch" href="/my-blog/assets/js/3.81f24e3d.js"><link rel="prefetch" href="/my-blog/assets/js/30.cfe39431.js"><link rel="prefetch" href="/my-blog/assets/js/31.22586ba5.js"><link rel="prefetch" href="/my-blog/assets/js/32.4b0a138f.js"><link rel="prefetch" href="/my-blog/assets/js/33.171f1591.js"><link rel="prefetch" href="/my-blog/assets/js/34.3154cd97.js"><link rel="prefetch" href="/my-blog/assets/js/35.7cde2bdc.js"><link rel="prefetch" href="/my-blog/assets/js/37.594450ea.js"><link rel="prefetch" href="/my-blog/assets/js/38.cb76519e.js"><link rel="prefetch" href="/my-blog/assets/js/39.0e0fcd4e.js"><link rel="prefetch" href="/my-blog/assets/js/4.26b5f3d4.js"><link rel="prefetch" href="/my-blog/assets/js/40.203e6111.js"><link rel="prefetch" href="/my-blog/assets/js/41.f9be178f.js"><link rel="prefetch" href="/my-blog/assets/js/42.6f503266.js"><link rel="prefetch" href="/my-blog/assets/js/43.651cadaf.js"><link rel="prefetch" href="/my-blog/assets/js/44.f38edfaa.js"><link rel="prefetch" href="/my-blog/assets/js/45.a6919b1a.js"><link rel="prefetch" href="/my-blog/assets/js/46.161520b6.js"><link rel="prefetch" href="/my-blog/assets/js/47.184312c5.js"><link rel="prefetch" href="/my-blog/assets/js/48.52accb13.js"><link rel="prefetch" href="/my-blog/assets/js/49.242bd9ba.js"><link rel="prefetch" href="/my-blog/assets/js/5.38649c44.js"><link rel="prefetch" href="/my-blog/assets/js/50.288bcfa8.js"><link rel="prefetch" href="/my-blog/assets/js/51.4cdffd6b.js"><link rel="prefetch" href="/my-blog/assets/js/52.cc9b3149.js"><link rel="prefetch" href="/my-blog/assets/js/53.056bf206.js"><link rel="prefetch" href="/my-blog/assets/js/54.ae508108.js"><link rel="prefetch" href="/my-blog/assets/js/55.37c28cf2.js"><link rel="prefetch" href="/my-blog/assets/js/56.c52664f0.js"><link rel="prefetch" href="/my-blog/assets/js/57.b1ffec38.js"><link rel="prefetch" href="/my-blog/assets/js/58.a8e110ca.js"><link rel="prefetch" href="/my-blog/assets/js/59.a3275381.js"><link rel="prefetch" href="/my-blog/assets/js/60.d5fd01d7.js"><link rel="prefetch" href="/my-blog/assets/js/61.62b8a6a9.js"><link rel="prefetch" href="/my-blog/assets/js/62.3d7ddd46.js"><link rel="prefetch" href="/my-blog/assets/js/63.26bda32f.js"><link rel="prefetch" href="/my-blog/assets/js/64.d3ec3343.js"><link rel="prefetch" href="/my-blog/assets/js/65.d5748731.js"><link rel="prefetch" href="/my-blog/assets/js/66.5f637293.js"><link rel="prefetch" href="/my-blog/assets/js/67.baf21c14.js"><link rel="prefetch" href="/my-blog/assets/js/68.24768adc.js"><link rel="prefetch" href="/my-blog/assets/js/69.4c94a8b4.js"><link rel="prefetch" href="/my-blog/assets/js/7.ea5a4b9d.js"><link rel="prefetch" href="/my-blog/assets/js/70.4033ab42.js"><link rel="prefetch" href="/my-blog/assets/js/71.1a97af3d.js"><link rel="prefetch" href="/my-blog/assets/js/72.7e922a93.js"><link rel="prefetch" href="/my-blog/assets/js/73.a2aae6d6.js"><link rel="prefetch" href="/my-blog/assets/js/74.55838165.js"><link rel="prefetch" href="/my-blog/assets/js/75.d92aefa9.js"><link rel="prefetch" href="/my-blog/assets/js/76.7ff205a1.js"><link rel="prefetch" href="/my-blog/assets/js/77.17fc5284.js"><link rel="prefetch" href="/my-blog/assets/js/78.87194272.js"><link rel="prefetch" href="/my-blog/assets/js/79.f8f507a6.js"><link rel="prefetch" href="/my-blog/assets/js/8.12538955.js"><link rel="prefetch" href="/my-blog/assets/js/80.1e7f35f8.js"><link rel="prefetch" href="/my-blog/assets/js/81.54bb57a6.js"><link rel="prefetch" href="/my-blog/assets/js/82.80147f7e.js"><link rel="prefetch" href="/my-blog/assets/js/83.e61c788d.js"><link rel="prefetch" href="/my-blog/assets/js/84.d694eb74.js"><link rel="prefetch" href="/my-blog/assets/js/85.40cc593b.js"><link rel="prefetch" href="/my-blog/assets/js/86.ea720ae0.js"><link rel="prefetch" href="/my-blog/assets/js/87.c5e43fd5.js"><link rel="prefetch" href="/my-blog/assets/js/88.a5febd97.js"><link rel="prefetch" href="/my-blog/assets/js/89.46f33e15.js"><link rel="prefetch" href="/my-blog/assets/js/9.0b7150ec.js"><link rel="prefetch" href="/my-blog/assets/js/90.0739025b.js"><link rel="prefetch" href="/my-blog/assets/js/91.ea6f8f1e.js"><link rel="prefetch" href="/my-blog/assets/js/92.9358642c.js"><link rel="prefetch" href="/my-blog/assets/js/93.29d89797.js"><link rel="prefetch" href="/my-blog/assets/js/94.8903aed2.js"><link rel="prefetch" href="/my-blog/assets/js/95.0f90a224.js"><link rel="prefetch" href="/my-blog/assets/js/96.b94f1204.js"><link rel="prefetch" href="/my-blog/assets/js/97.461c381c.js"><link rel="prefetch" href="/my-blog/assets/js/98.9a8da1dc.js">
+    <link rel="stylesheet" href="/my-blog/assets/css/0.styles.225419fd.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="page-main"><header class="component-nav-menu nav-bar"><i class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></i> <div class="title">songStar</div> <div class="search-wrapper"><div aria-haspopup="listbox" role="combobox" aria-owns="el-autocomplete-1786" class="el-autocomplete search-input no-focused"><div class="el-input el-input--prefix"><!----><input type="text" autocomplete="off" valueKey="title" placeholder="请输入内容" fetchSuggestions="function () { [native code] }" triggerOnFocus="true" debounce="300" placement="bottom-start" popperAppendToBody="true" background-color="#eee" value="" class="el-input__inner"><span class="el-input__prefix"><i class="el-input__icon el-icon-search"></i></span><!----><!----></div><div role="region" class="el-autocomplete-suggestion el-popper" style="width:;display:none;"><div class="el-scrollbar"><div class="el-autocomplete-suggestion__wrap el-scrollbar__wrap el-scrollbar__wrap--hidden-default"><ul class="el-scrollbar__view el-autocomplete-suggestion__list"></ul></div><div class="el-scrollbar__bar is-horizontal"><div class="el-scrollbar__thumb" style="width:0;transform:translateX(0%);ms-transform:translateX(0%);webkit-transform:translateX(0%);"></div></div><div class="el-scrollbar__bar is-vertical"><div class="el-scrollbar__thumb" style="height:0;transform:translateY(0%);ms-transform:translateY(0%);webkit-transform:translateY(0%);"></div></div></div></div></div></div> <div class="sidebar-mask" style="display:none;"></div> <ul role="menubar" class="el-menu--horizontal el-menu nav-links" style="background-color:;"><li role="menuitem" tabindex="-1" class="el-menu-item" style="color:;border-bottom-color:transparent;background-color:;">
+        Home
+      </li><li role="menuitem" tabindex="-1" class="el-menu-item is-active" style="color:;border-bottom-color:;background-color:;">
+        Blog
+      </li><li role="menuitem" aria-haspopup="true" class="el-submenu"><div class="el-submenu__title" style="border-bottom-color:transparent;color:;background-color:;">
+          docs
+        <i class="el-submenu__icon-arrow el-icon-arrow-down"></i></div><div class="el-menu--horizontal" style="display:none;"><ul role="menu" class="el-menu el-menu--popup el-menu--popup-" style="background-color:;"> <li role="menuitem" tabindex="-1" class="el-menu-item" style="color:;background-color:;">
+          es6
+        </li><li role="menuitem" tabindex="-1" class="el-menu-item" style="color:;background-color:;">
+          typescript
+        </li><li role="menuitem" tabindex="-1" class="el-menu-item" style="color:;background-color:;">
+          closure
+        </li></ul></div></li><li role="menuitem" tabindex="-1" class="el-menu-item" style="color:;border-bottom-color:transparent;background-color:;">
+        About
+      </li><li role="menuitem" tabindex="-1" class="el-menu-item" style="color:;border-bottom-color:transparent;background-color:;">
+        Github
+      </li></ul></header> <!----> <div class="page-container"><div class="component-page"><div class="page-content"><!----> <div class="content default"><h1 id="【转】vuepress-主题踩坑"><a href="#【转】vuepress-主题踩坑" aria-hidden="true" class="header-anchor">#</a> 【转】VuePress 主题踩坑</h1> <p>这两天刚好有时间，感觉 VuePress 的主题不是很适合博客系统，就看着改了一波，踩了点小坑。</p> <h3 id="如何组织主题目录"><a href="#如何组织主题目录" aria-hidden="true" class="header-anchor">#</a> 如何组织主题目录</h3> <p>首先在 <code>.vuepress</code> 目录新建一个 <code>theme</code> 文件夹，然后再创建一个 <code>Layout.vue</code> 的文件。</p> <div class="language-text extra-class"><pre class="language-text"><code>.vuepress
+   └─ theme
+      └─ Layout.vue
+</code></pre></div><h3 id="元数据"><a href="#元数据" aria-hidden="true" class="header-anchor">#</a> 元数据</h3> <p><code>Layout</code> 组件会将 <code>docs</code> 目录下所有的 <code>.md</code> 文件都执行一次，同时将这个页面的元数据暴露为 <code>this.$page</code> 属性，而整个网站的元数据暴露为 <code>this.$site</code> 属性，他们会被注入到当前被应用到的主题组件中。</p> <div class="language-json extra-class"><pre class="language-json"><code><span class="token punctuation">{</span>
+  <span class="token property">&quot;title&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Hello MT-BLOG&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;description&quot;</span><span class="token operator">:</span> <span class="token string">&quot;12345，上山打老虎。&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;base&quot;</span><span class="token operator">:</span> <span class="token string">&quot;/mt-blog/&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;pages&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;themeConfig&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">&quot;repo&quot;</span><span class="token operator">:</span> <span class="token string">&quot;TaoXuSheng/mt-blog&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;nav&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;sidebar&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>上图是网站的 <code>$site</code> 值，其中 <code>base</code>，<code>title</code>，<code>description</code>，<code>themeConfig</code> 等属性是从 <code>.vuepress/config.js</code> 文件中 copy 过来的。而 <code>pages</code> 则是整个网站的页面元数据。</p> <p><code>docs/README.md</code> 文件中的内容，其中包含了 YAML、Markdown、Vue 等语法。</p> <div class="language-text extra-class"><pre class="language-text"><code>---
+home: true
+title: 12345，上山打老虎
+component: home
+bgimg: ./mt-blog/docs/bg.jpeg
+nav:
+  - text: 知乎
+    link: /zhihu/
+  - text: 博客
+    link: /blog/
+---
+## 标题一
+
+&gt; 整个是首页
+
+&lt;template&gt;
+  &lt;div&gt;test&lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  created () {
+    console.log('整个是首页')
+  }
+}
+&lt;/script&gt;
+</code></pre></div><div class="language-json extra-class"><pre class="language-json"><code><span class="token punctuation">{</span>
+  <span class="token property">&quot;path&quot;</span><span class="token operator">:</span> <span class="token string">&quot;/&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;title&quot;</span><span class="token operator">:</span> <span class="token string">&quot;Home&quot;</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;headers&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token property">&quot;level&quot;</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;title&quot;</span><span class="token operator">:</span> <span class="token string">&quot;标题一&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;slug&quot;</span><span class="token operator">:</span> <span class="token string">&quot;标题一&quot;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;frontmatter&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">&quot;home&quot;</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;title&quot;</span><span class="token operator">:</span> <span class="token string">&quot;12345，上山打老虎&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;component&quot;</span><span class="token operator">:</span> <span class="token string">&quot;home&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;bgimg&quot;</span><span class="token operator">:</span> <span class="token string">&quot;./mt-blog/docs/bg.jpeg&quot;</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;nav&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        <span class="token property">&quot;text&quot;</span><span class="token operator">:</span> <span class="token string">&quot;知乎&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;link&quot;</span><span class="token operator">:</span> <span class="token string">&quot;/zhihu/&quot;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        <span class="token property">&quot;text&quot;</span><span class="token operator">:</span> <span class="token string">&quot;博客&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;link&quot;</span><span class="token operator">:</span> <span class="token string">&quot;/blog/&quot;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>上面是 <code>docs/README.md</code> 文件所对应的 <code>$page</code> 属性的值，<code>path</code> 是 VuePress 当前页面的路径，<code>headers</code> 对当前页面中 Markdown 语法的标题，<code>frontmatter</code> 是对当前页面的 YAML 语法的解析。其中 vue 相关的代码被直接忽略掉。</p> <h3 id="获取渲染内容"><a href="#获取渲染内容" aria-hidden="true" class="header-anchor">#</a> 获取渲染内容</h3> <p>我们可以通过 VuePress 提供的全局组件 <code>&lt;Content/&gt;</code> 来渲染当前 <code>.md</code> 文件中的内容。</p></div> <div class="page-nav"><div class="pre"><!----></div> <div class="next"><!----></div></div> <div class="vcomment content"><div id="vcomments"></div></div></div> <!----></div></div></div><div class="global-ui"><!----></div></div>
+    <script src="/my-blog/assets/js/app.30cdb09a.js" defer></script><script src="/my-blog/assets/js/6.174b3b94.js" defer></script><script src="/my-blog/assets/js/36.e32b157f.js" defer></script>
+  </body>
+</html>
