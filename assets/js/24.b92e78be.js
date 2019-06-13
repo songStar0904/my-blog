@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[24],{445:function(t,n,e){"use strict";e.r(n);var s=e(24),i=Object(s.a)({},function(){var t=this.$createElement;return(this._self._c||t)("ContentSlotsDistributor",{attrs:{"slot-key":this.$parent.slotKey}})},[],!1,null,null,null);i.options.__file="miniapp-bug.md";n.default=i.exports}}]);

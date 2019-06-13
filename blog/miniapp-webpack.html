@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>提示小程序工程化实践（上篇）-- 手把手教你撸一个小程序 webpack 插件，一个例子带你熟悉 webpack 工作流程 | songStar</title>
+    <meta name="description" content="本文基于 webpack 4 和 babel 7，Mac OS，VS Code 小程序开发现状： 小程序开发者工具不好用，官方对 npm 的支持有限，缺少对 webpack, babel 等前端常用工具链的支持。 多端框架(Mpvue, Taro)崛起，但限">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
+  <link rel="icon" href="logo.jpg">
+    
+    <link rel="preload" href="/my-blog/assets/css/0.styles.225419fd.css" as="style"><link rel="preload" href="/my-blog/assets/js/app.b014c8cf.js" as="script"><link rel="preload" href="/my-blog/assets/js/6.af0476b8.js" as="script"><link rel="preload" href="/my-blog/assets/js/33.f4f367b2.js" as="script"><link rel="prefetch" href="/my-blog/assets/js/10.76acdb26.js"><link rel="prefetch" href="/my-blog/assets/js/100.bc4d64a4.js"><link rel="prefetch" href="/my-blog/assets/js/101.ab40d3ec.js"><link rel="prefetch" href="/my-blog/assets/js/102.86da8b33.js"><link rel="prefetch" href="/my-blog/assets/js/103.c52f38ac.js"><link rel="prefetch" href="/my-blog/assets/js/11.4daaf977.js"><link rel="prefetch" href="/my-blog/assets/js/12.1c37da93.js"><link rel="prefetch" href="/my-blog/assets/js/13.3941093b.js"><link rel="prefetch" href="/my-blog/assets/js/14.6ef4cffa.js"><link rel="prefetch" href="/my-blog/assets/js/15.2d80dbca.js"><link rel="prefetch" href="/my-blog/assets/js/16.26a5b680.js"><link rel="prefetch" href="/my-blog/assets/js/17.ed3a3179.js"><link rel="prefetch" href="/my-blog/assets/js/18.f7bf9824.js"><link rel="prefetch" href="/my-blog/assets/js/19.023a0462.js"><link rel="prefetch" href="/my-blog/assets/js/2.6d35d7f6.js"><link rel="prefetch" href="/my-blog/assets/js/20.7757cea3.js"><link rel="prefetch" href="/my-blog/assets/js/21.a9f11878.js"><link rel="prefetch" href="/my-blog/assets/js/22.5bd665c2.js"><link rel="prefetch" href="/my-blog/assets/js/23.b7b50bb3.js"><link rel="prefetch" href="/my-blog/assets/js/24.436c035b.js"><link rel="prefetch" href="/my-blog/assets/js/25.670b2cd3.js"><link rel="prefetch" href="/my-blog/assets/js/26.4be6e8b2.js"><link rel="prefetch" href="/my-blog/assets/js/27.a1087170.js"><link rel="prefetch" href="/my-blog/assets/js/28.5a20931b.js"><link rel="prefetch" href="/my-blog/assets/js/29.b8f3d609.js"><link rel="prefetch" href="/my-blog/assets/js/3.c5dd4370.js"><link rel="prefetch" href="/my-blog/assets/js/30.d2560311.js"><link rel="prefetch" href="/my-blog/assets/js/31.e96121dd.js"><link rel="prefetch" href="/my-blog/assets/js/32.307246aa.js"><link rel="prefetch" href="/my-blog/assets/js/34.69cf293b.js"><link rel="prefetch" href="/my-blog/assets/js/35.517cbcce.js"><link rel="prefetch" href="/my-blog/assets/js/36.00f40023.js"><link rel="prefetch" href="/my-blog/assets/js/37.72883330.js"><link rel="prefetch" href="/my-blog/assets/js/38.40846d01.js"><link rel="prefetch" href="/my-blog/assets/js/39.ea231c71.js"><link rel="prefetch" href="/my-blog/assets/js/4.35303b03.js"><link rel="prefetch" href="/my-blog/assets/js/40.91a63cfc.js"><link rel="prefetch" href="/my-blog/assets/js/41.bf79cf5e.js"><link rel="prefetch" href="/my-blog/assets/js/42.1eaccabd.js"><link rel="prefetch" href="/my-blog/assets/js/43.d8c69eac.js"><link rel="prefetch" href="/my-blog/assets/js/44.00c3f1b4.js"><link rel="prefetch" href="/my-blog/assets/js/45.2374d4d7.js"><link rel="prefetch" href="/my-blog/assets/js/46.74eac049.js"><link rel="prefetch" href="/my-blog/assets/js/47.ac4622d5.js"><link rel="prefetch" href="/my-blog/assets/js/48.67962502.js"><link rel="prefetch" href="/my-blog/assets/js/49.49e625f7.js"><link rel="prefetch" href="/my-blog/assets/js/5.b56ffffd.js"><link rel="prefetch" href="/my-blog/assets/js/50.b82f94a4.js"><link rel="prefetch" href="/my-blog/assets/js/51.bf95fcc5.js"><link rel="prefetch" href="/my-blog/assets/js/52.dcbbe984.js"><link rel="prefetch" href="/my-blog/assets/js/53.fe1f64b5.js"><link rel="prefetch" href="/my-blog/assets/js/54.f514961d.js"><link rel="prefetch" href="/my-blog/assets/js/55.4dc01f90.js"><link rel="prefetch" href="/my-blog/assets/js/56.2b712ef1.js"><link rel="prefetch" href="/my-blog/assets/js/57.d6bd0548.js"><link rel="prefetch" href="/my-blog/assets/js/58.c415a23d.js"><link rel="prefetch" href="/my-blog/assets/js/59.3f56c538.js"><link rel="prefetch" href="/my-blog/assets/js/60.a4726ee7.js"><link rel="prefetch" href="/my-blog/assets/js/61.2083e921.js"><link rel="prefetch" href="/my-blog/assets/js/62.63607088.js"><link rel="prefetch" href="/my-blog/assets/js/63.19c63e48.js"><link rel="prefetch" href="/my-blog/assets/js/64.64ac8229.js"><link rel="prefetch" href="/my-blog/assets/js/65.bdb04853.js"><link rel="prefetch" href="/my-blog/assets/js/66.2a3212c5.js"><link rel="prefetch" href="/my-blog/assets/js/67.decfeb70.js"><link rel="prefetch" href="/my-blog/assets/js/68.fa4f287c.js"><link rel="prefetch" href="/my-blog/assets/js/69.0e94d885.js"><link rel="prefetch" href="/my-blog/assets/js/7.3b8b5e87.js"><link rel="prefetch" href="/my-blog/assets/js/70.32a3b732.js"><link rel="prefetch" href="/my-blog/assets/js/71.cfc18417.js"><link rel="prefetch" href="/my-blog/assets/js/72.fda45210.js"><link rel="prefetch" href="/my-blog/assets/js/73.10b99d00.js"><link rel="prefetch" href="/my-blog/assets/js/74.01b346e8.js"><link rel="prefetch" href="/my-blog/assets/js/75.9add6127.js"><link rel="prefetch" href="/my-blog/assets/js/76.58a75682.js"><link rel="prefetch" href="/my-blog/assets/js/77.954035b6.js"><link rel="prefetch" href="/my-blog/assets/js/78.379fae55.js"><link rel="prefetch" href="/my-blog/assets/js/79.1a9fa0b4.js"><link rel="prefetch" href="/my-blog/assets/js/8.56eab9ae.js"><link rel="prefetch" href="/my-blog/assets/js/80.c20b03fa.js"><link rel="prefetch" href="/my-blog/assets/js/81.753108ff.js"><link rel="prefetch" href="/my-blog/assets/js/82.2eaf1a42.js"><link rel="prefetch" href="/my-blog/assets/js/83.7a03ea3e.js"><link rel="prefetch" href="/my-blog/assets/js/84.0dcd16c2.js"><link rel="prefetch" href="/my-blog/assets/js/85.ef83c37a.js"><link rel="prefetch" href="/my-blog/assets/js/86.25a1b456.js"><link rel="prefetch" href="/my-blog/assets/js/87.4b2e6de6.js"><link rel="prefetch" href="/my-blog/assets/js/88.0e2c4cb4.js"><link rel="prefetch" href="/my-blog/assets/js/89.3966e1f2.js"><link rel="prefetch" href="/my-blog/assets/js/9.0e80f474.js"><link rel="prefetch" href="/my-blog/assets/js/90.7ccf313c.js"><link rel="prefetch" href="/my-blog/assets/js/91.35863673.js"><link rel="prefetch" href="/my-blog/assets/js/92.c2d82092.js"><link rel="prefetch" href="/my-blog/assets/js/93.c1d45b1a.js"><link rel="prefetch" href="/my-blog/assets/js/94.6cd7c2c4.js"><link rel="prefetch" href="/my-blog/assets/js/95.ab6ba73e.js"><link rel="prefetch" href="/my-blog/assets/js/96.75a77e9a.js"><link rel="prefetch" href="/my-blog/assets/js/97.e834da21.js"><link rel="prefetch" href="/my-blog/assets/js/98.01389daf.js"><link rel="prefetch" href="/my-blog/assets/js/99.560f4803.js">
+    <link rel="stylesheet" href="/my-blog/assets/css/0.styles.225419fd.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="page-main"><header class="component-nav-menu nav-bar"><i class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></i> <div class="title">songStar</div> <div class="search-wrapper"><div aria-haspopup="listbox" role="combobox" aria-owns="el-autocomplete-5469" class="el-autocomplete search-input no-focused"><div class="el-input el-input--prefix"><!----><input type="text" autocomplete="off" valueKey="title" placeholder="请输入内容" fetchSuggestions="function () { [native code] }" triggerOnFocus="true" debounce="300" placement="bottom-start" popperAppendToBody="true" background-color="#eee" value="" class="el-input__inner"><span class="el-input__prefix"><i class="el-input__icon el-icon-search"></i></span><!----><!----></div><div role="region" class="el-autocomplete-suggestion el-popper" style="width:;display:none;"><div class="el-scrollbar"><div class="el-autocomplete-suggestion__wrap el-scrollbar__wrap el-scrollbar__wrap--hidden-default"><ul class="el-scrollbar__view el-autocomplete-suggestion__list"></ul></div><div class="el-scrollbar__bar is-horizontal"><div class="el-scrollbar__thumb" style="width:0;transform:translateX(0%);ms-transform:translateX(0%);webkit-transform:translateX(0%);"></div></div><div class="el-scrollbar__bar is-vertical"><div class="el-scrollbar__thumb" style="height:0;transform:translateY(0%);ms-transform:translateY(0%);webkit-transform:translateY(0%);"></div></div></div></div></div></div> <div class="sidebar-mask" style="display:none;"></div> <ul role="menubar" class="el-menu--horizontal el-menu nav-links" style="background-color:;"><li role="menuitem" tabindex="-1" class="el-menu-item" style="color:;border-bottom-color:transparent;background-color:;">
+        Home
+      </li><li role="menuitem" tabindex="-1" class="el-menu-item is-active" style="color:;border-bottom-color:;background-color:;">
+        Blog
+      </li><li role="menuitem" aria-haspopup="true" class="el-submenu"><div class="el-submenu__title" style="border-bottom-color:transparent;color:;background-color:;">
+          docs
+        <i class="el-submenu__icon-arrow el-icon-arrow-down"></i></div><div class="el-menu--horizontal" style="display:none;"><ul role="menu" class="el-menu el-menu--popup el-menu--popup-" style="background-color:;"> <li role="menuitem" tabindex="-1" class="el-menu-item" style="color:;background-color:;">
+          es6
+        </li><li role="menuitem" tabindex="-1" class="el-menu-item" style="color:;background-color:;">
+          typescript
+        </li><li role="menuitem" tabindex="-1" class="el-menu-item" style="color:;background-color:;">
+          closure
+        </li></ul></div></li><li role="menuitem" tabindex="-1" class="el-menu-item" style="color:;border-bottom-color:transparent;background-color:;">
+        About
+      </li><li role="menuitem" tabindex="-1" class="el-menu-item" style="color:;border-bottom-color:transparent;background-color:;">
+        Github
+      </li></ul></header> <!----> <div class="page-container"><div class="component-page"><div class="page-content"><!----> <div class="content default"><blockquote><p>本文基于 webpack 4 和 babel 7，Mac OS，VS Code</p></blockquote> <p>小程序开发现状：</p> <p>多端框架(Mpvue, Taro)崛起，但限制了原生小程序的能力。</p> <p>我司在使用一段时间多端开发框架后，决定回退到原生方案，除了多端框架对原生能力有所限制外，最重要的是，我们只需要一个微信小程序，并不需要跨端。</p> <p>程序虽小，但需要长期维护，多人维护，因此规范的工程化实践就很重要了。本系列文章分上下两篇，上篇主要讲 webpack, babel, 环境配置，下篇主要讲 Typescript, EsLint, 单元测试，CI / CD。</p> <p><strong>通过本文，你将学会使用如何使用前端工程技术来开发原生小程序：</strong></p> <ul><li>webpack 基础配置以及高级配置</li> <li>webpack 构建流程，这是编写 webpack 插件的基础</li> <li>编写 webpack 插件，核心源码不到 50 行，使得小程序开发支持 npm</li> <li>为你讲述 webpack 插件中关键代码的作用，而不仅仅是提供源码</li> <li>优化 webpack 配置，剔除不必要的代码，减少包体积</li> <li>支持 sass 等 css 预处理器</li></ul> <h2 id="微信小程序官方对-npm-的支持程度"><a href="#微信小程序官方对-npm-的支持程度" aria-hidden="true" class="header-anchor">#</a> 微信小程序官方对 npm 的支持程度</h2> <p>这也是作者为什么要花大力气学习如何编写 webpack 插件，使得小程序可以像 Web 应用那样支持 npm 的缘故。不得不说，这也是一个学习编写 webpack 插件的契机。</p> <p>先让我们来吐槽官方对 npm 的支持。</p> <p>打开微信开发者工具 -&gt; 项目 -&gt; 新建项目，使用测试号创建一个小程序项目</p> <p>通过终端，初始化 npm</p> <div class="language- extra-class"><pre class="language-text"><code>npm init --yes
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><p>可以看到，我们的项目根目录下，生成了一个 package.json 文件</p> <p>现在让我们通过 npm 引入一些依赖，首先是大名鼎鼎的 moment 和 lodash</p> <div class="language- extra-class"><pre class="language-text"><code>npm i moment lodash
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><p>点击微信开发者工具中的菜单栏：工具 -&gt; 构建 npm</p> <p>可以看到，在我们项目的根目录下，生成了一个叫 miniprogram_npm 的目录</p> <p>修改 app.js，添加如下内容</p> <div class="language- extra-class"><pre class="language-text"><code>// app.js
+&lt;span class=&quot;hljs-addition&quot;&gt;+ import moment from 'moment';&lt;/span&gt;
+App({
+  onLaunch: function () {
+&lt;span class=&quot;hljs-addition&quot;&gt;+    console.log('-----------------------------------------------x');&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+    let sFromNowText = moment(new Date().getTime() - 360000).fromNow();&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+    console.log(sFromNowText);&lt;/span&gt;
+  }
+})
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><p>并保存，可以看到微信开发者工具控制台输出：</p> <p>再来测试下 lodash，修改 app.js，添加如下内容</p> <div class="language- extra-class"><pre class="language-text"><code>// app.js
+&lt;span class=&quot;hljs-addition&quot;&gt;+ import { camelCase } from 'lodash';&lt;/span&gt;
+App({
+  onLaunch: function () {
+&lt;span class=&quot;hljs-addition&quot;&gt;+    console.log(camelCase('OnLaunch'));&lt;/span&gt;
+  }
+})
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><p>保存，然后出错了</p> <p>然后作者又尝试了 rxjs 这个库，也同样失败了。查阅了一些资料，说是要把 rxjs 的源码 clone 下来编译，并将编译结果复制到 miniprogram_npm 这个文件夹。尝试了下，确实可行。 <strong>但这种使用 npm 的方式也实在是太奇葩了吧</strong>，太反人类了，不是我们熟悉的味道。</p> <h2 id="创建-webpack-化的小程序项目"><a href="#创建-webpack-化的小程序项目" aria-hidden="true" class="header-anchor">#</a> 创建 webpack 化的小程序项目</h2> <p>先把 app.js 中新增的代码移除</p> <div class="language- extra-class"><pre class="language-text"><code>// app.js
+&lt;span class=&quot;hljs-deletion&quot;&gt;- import moment from 'moment';&lt;/span&gt;
+&lt;span class=&quot;hljs-deletion&quot;&gt;- import { camelCase } from 'lodash';&lt;/span&gt;
+App({
+  onLaunch: function () {
+&lt;span class=&quot;hljs-deletion&quot;&gt;-    console.log('-----------------------------------------------x');&lt;/span&gt;
+&lt;span class=&quot;hljs-deletion&quot;&gt;-    let sFromNowText = moment(new Date().getTime() - 360000).fromNow();&lt;/span&gt;
+&lt;span class=&quot;hljs-deletion&quot;&gt;-    console.log(sFromNowText);&lt;/span&gt;
+&lt;span class=&quot;hljs-deletion&quot;&gt;-    console.log(camelCase('OnLaunch'));&lt;/span&gt;
+  }
+})
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><p>删掉 miniprogram_npm 这个文件夹，这真是个异类。</p> <p>新建文件夹 src，把 pages, utils, app.js, app.json, app.wxss, sitemap.json 这几个文件(夹)移动进去</p> <p>安装 webpack 和 webpack-cli</p> <div class="language- extra-class"><pre class="language-text"><code>npm i --save-dev webpack webpack-cli copy-webpack-plugin clean-webpack-plugin
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><p>在根目录下，新建 webpack.config.js 文件，添加如下内容</p> <div class="language- extra-class"><pre class="language-text"><code>&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; { resolve } = &lt;span class=&quot;hljs-built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;hljs-string&quot;&gt;'path'&lt;/span&gt;)
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; CopyWebpackPlugin = &lt;span class=&quot;hljs-built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;hljs-string&quot;&gt;'copy-webpack-plugin'&lt;/span&gt;)
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; { CleanWebpackPlugin } = &lt;span class=&quot;hljs-built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;hljs-string&quot;&gt;'clean-webpack-plugin'&lt;/span&gt;)
+
+&lt;span class=&quot;hljs-built_in&quot;&gt;module&lt;/span&gt;.exports = {
+  &lt;span class=&quot;hljs-attr&quot;&gt;context&lt;/span&gt;: resolve(&lt;span class=&quot;hljs-string&quot;&gt;'src'&lt;/span&gt;),
+  &lt;span class=&quot;hljs-attr&quot;&gt;entry&lt;/span&gt;: &lt;span class=&quot;hljs-string&quot;&gt;'./app.js'&lt;/span&gt;,
+  &lt;span class=&quot;hljs-attr&quot;&gt;output&lt;/span&gt;: {
+    &lt;span class=&quot;hljs-attr&quot;&gt;path&lt;/span&gt;: resolve(&lt;span class=&quot;hljs-string&quot;&gt;'dist'&lt;/span&gt;),
+    &lt;span class=&quot;hljs-attr&quot;&gt;filename&lt;/span&gt;: &lt;span class=&quot;hljs-string&quot;&gt;'[name].js'&lt;/span&gt;,
+  },
+  &lt;span class=&quot;hljs-attr&quot;&gt;plugins&lt;/span&gt;: [
+    &lt;span class=&quot;hljs-keyword&quot;&gt;new&lt;/span&gt; CleanWebpackPlugin({
+      &lt;span class=&quot;hljs-attr&quot;&gt;cleanStaleWebpackAssets&lt;/span&gt;: &lt;span class=&quot;hljs-literal&quot;&gt;false&lt;/span&gt;,
+    }),
+    &lt;span class=&quot;hljs-keyword&quot;&gt;new&lt;/span&gt; CopyWebpackPlugin([
+      {
+        &lt;span class=&quot;hljs-attr&quot;&gt;from&lt;/span&gt;: &lt;span class=&quot;hljs-string&quot;&gt;'**/*'&lt;/span&gt;,
+        &lt;span class=&quot;hljs-attr&quot;&gt;to&lt;/span&gt;: &lt;span class=&quot;hljs-string&quot;&gt;'./'&lt;/span&gt;,
+      },
+    ]),
+  ],
+  &lt;span class=&quot;hljs-attr&quot;&gt;mode&lt;/span&gt;: &lt;span class=&quot;hljs-string&quot;&gt;'none'&lt;/span&gt;,
+}
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><p>修改 project.config.json 文件，指明小程序的入口</p> <div class="language- extra-class"><pre class="language-text"><code>// project.config.json
+{
+&quot;description&quot;: &quot;&amp;#x9879;&amp;#x76EE;&amp;#x914D;&amp;#x7F6E;&amp;#x6587;&amp;#x4EF6;&quot;,
+&lt;span class=&quot;hljs-addition&quot;&gt;+  &quot;miniprogramRoot&quot;: &quot;dist/&quot;,&lt;/span&gt;
+}
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><p>在终端输入 npx webpack。</p> <p>可以看到，在小程序开发者工具的模拟器中，我们的小程序刷新了，而且控制台也没有错误提示。</p> <p>在我们项目的根目录中，生成了一个叫 dist 的文件夹，里面的内容和 src 中一模一样，除了多了个 main.js 文件。</p> <p>对 webpack 有所了解的同学都知道，这是 webpack 化项目的经典结构</p> <p>如果你对 webpack 从不了解，那么此时你应该去阅读以下文档，直到你弄明白为什么会多了个 main.js 文件。</p> <p>在上面的例子中，我们只是简单地将 src 中的文件原封不动地复制到 dist 中，并且让微信开发者工具感知到，dist 中才是我们要发布的代码。</p> <p><strong>这是重要的一步，因为我们搭建了一个 webpack 化的小程序项目。</strong></p> <p>我们使用 npm，主要是为了解决 js 代码的依赖问题，那么 js 交给 webpack 来处理，其它文件诸如 .json, .wxml, .wxss 直接复制就好了，这么想，事情就会简单很多。</p> <p>如果你对 webpack 已有基本了解，那么此时，你应该理解小程序是个多页面应用程序，它有多个入口。</p> <p>下面，让我们修改 webpack.config.js 来配置入口</p> <div class="language- extra-class"><pre class="language-text"><code>&lt;span class=&quot;hljs-deletion&quot;&gt;-  entry: './app.js'&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+  entry: {&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+    'app'              : './app.js',&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+    'pages/index/index': './pages/index/index.js',&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+    'pages/logs/logs'  : './pages/logs/logs.js'&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+  },&lt;/span&gt;
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><p>webpack 需要借助 babel 来处理 js，因此 babel 登场。</p> <div class="language- extra-class"><pre class="language-text"><code>npm i  @babel/core @babel/preset-env babel-loader --save-dev
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><p>在根目录创建 .babelrc 文件，添加如下内容</p> <div class="language- extra-class"><pre class="language-text"><code>
+{
+  &lt;span class=&quot;hljs-string&quot;&gt;&quot;presets&quot;&lt;/span&gt;: [&lt;span class=&quot;hljs-string&quot;&gt;&quot;@babel/env&quot;&lt;/span&gt;]
+}
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><p>修改 webpack.config.js，使用 babel-loader 来处理 js 文件</p> <div class="language- extra-class"><pre class="language-text"><code>module.exports = {
+&lt;span class=&quot;hljs-addition&quot;&gt;+  module: {&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+    rules: [&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+      {&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+         test: /\.js$/,&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+         use: 'babel-loader'&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+       }&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+     ]&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+   },&lt;/span&gt;
+}
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><p>从 src 复制文件到 dist 时，排除 js 文件</p> <div class="language- extra-class"><pre class="language-text"><code>new CopyWebpackPlugin([
+  {
+    from: '**/*',
+    to: './',
+&lt;span class=&quot;hljs-addition&quot;&gt;+   ignore: ['**/*.js']&lt;/span&gt;
+  }
+])
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><p>此时，webpack.config.js 文件看起来是这样的：</p> <div class="language- extra-class"><pre class="language-text"><code>&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; { resolve } = &lt;span class=&quot;hljs-built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;hljs-string&quot;&gt;'path'&lt;/span&gt;)
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; CopyWebpackPlugin = &lt;span class=&quot;hljs-built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;hljs-string&quot;&gt;'copy-webpack-plugin'&lt;/span&gt;)
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; { CleanWebpackPlugin } = &lt;span class=&quot;hljs-built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;hljs-string&quot;&gt;'clean-webpack-plugin'&lt;/span&gt;)
+
+&lt;span class=&quot;hljs-built_in&quot;&gt;module&lt;/span&gt;.exports = {
+  &lt;span class=&quot;hljs-attr&quot;&gt;context&lt;/span&gt;: resolve(&lt;span class=&quot;hljs-string&quot;&gt;'src'&lt;/span&gt;),
+  &lt;span class=&quot;hljs-attr&quot;&gt;entry&lt;/span&gt;: {
+    &lt;span class=&quot;hljs-attr&quot;&gt;app&lt;/span&gt;: &lt;span class=&quot;hljs-string&quot;&gt;'./app.js'&lt;/span&gt;,
+    &lt;span class=&quot;hljs-string&quot;&gt;'pages/index/index'&lt;/span&gt;: &lt;span class=&quot;hljs-string&quot;&gt;'./pages/index/index.js'&lt;/span&gt;,
+    &lt;span class=&quot;hljs-string&quot;&gt;'pages/logs/logs'&lt;/span&gt;: &lt;span class=&quot;hljs-string&quot;&gt;'./pages/logs/logs.js'&lt;/span&gt;,
+  },
+  &lt;span class=&quot;hljs-attr&quot;&gt;output&lt;/span&gt;: {
+    &lt;span class=&quot;hljs-attr&quot;&gt;path&lt;/span&gt;: resolve(&lt;span class=&quot;hljs-string&quot;&gt;'dist'&lt;/span&gt;),
+    &lt;span class=&quot;hljs-attr&quot;&gt;filename&lt;/span&gt;: &lt;span class=&quot;hljs-string&quot;&gt;'[name].js'&lt;/span&gt;,
+  },
+  &lt;span class=&quot;hljs-attr&quot;&gt;module&lt;/span&gt;: {
+    &lt;span class=&quot;hljs-attr&quot;&gt;rules&lt;/span&gt;: [
+      {
+        &lt;span class=&quot;hljs-attr&quot;&gt;test&lt;/span&gt;: &lt;span class=&quot;hljs-regexp&quot;&gt;/\.js$/&lt;/span&gt;,
+        &lt;span class=&quot;hljs-attr&quot;&gt;use&lt;/span&gt;: &lt;span class=&quot;hljs-string&quot;&gt;'babel-loader'&lt;/span&gt;,
+      },
+    ],
+  },
+  &lt;span class=&quot;hljs-attr&quot;&gt;plugins&lt;/span&gt;: [
+    &lt;span class=&quot;hljs-keyword&quot;&gt;new&lt;/span&gt; CleanWebpackPlugin({
+      &lt;span class=&quot;hljs-attr&quot;&gt;cleanStaleWebpackAssets&lt;/span&gt;: &lt;span class=&quot;hljs-literal&quot;&gt;false&lt;/span&gt;,
+    }),
+    &lt;span class=&quot;hljs-keyword&quot;&gt;new&lt;/span&gt; CopyWebpackPlugin([
+      {
+        &lt;span class=&quot;hljs-attr&quot;&gt;from&lt;/span&gt;: &lt;span class=&quot;hljs-string&quot;&gt;'**/*'&lt;/span&gt;,
+        &lt;span class=&quot;hljs-attr&quot;&gt;to&lt;/span&gt;: &lt;span class=&quot;hljs-string&quot;&gt;'./'&lt;/span&gt;,
+        &lt;span class=&quot;hljs-attr&quot;&gt;ignore&lt;/span&gt;: [&lt;span class=&quot;hljs-string&quot;&gt;'**/*.js'&lt;/span&gt;],
+      },
+    ]),
+  ],
+  &lt;span class=&quot;hljs-attr&quot;&gt;mode&lt;/span&gt;: &lt;span class=&quot;hljs-string&quot;&gt;'none'&lt;/span&gt;,
+}
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><p>执行 <code>npx webpack</code></p> <p>可以看到，在 dist 文件夹中，main.js 不见了，同时消失的还有 utils 整个文件夹，因为 utils/util.js 已经被合并到依赖它的 pages/logs/logs.js 文件中去了。</p> <blockquote><p>为什么 main.js 会不见了呢？</p></blockquote> <p>可以看到，在小程序开发者工具的模拟器中，我们的小程序刷新了，而且控制台也没有错误提示。</p> <p>把下面代码添加回 app.js 文件，看看效果如何？</p> <div class="language- extra-class"><pre class="language-text"><code>// app.js
+&lt;span class=&quot;hljs-addition&quot;&gt;+ import moment from 'moment';&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+ import { camelCase } from 'lodash';&lt;/span&gt;
+App({
+  onLaunch: function () {
+&lt;span class=&quot;hljs-addition&quot;&gt;+    console.log('-----------------------------------------------x');&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+    let sFromNowText = moment(new Date().getTime() - 360000).fromNow();&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+    console.log(sFromNowText);&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+    console.log(camelCase('OnLaunch'));&lt;/span&gt;
+  }
+})
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><p>可以看到，不管是 moment 还是 lodash, 都能正常工作。</p> <p><strong>这是重要的里程碑的一步，因为我们终于能够正常地使用 npm 了。</strong></p> <p>而此时，我们还没有开始写 webpack 插件。</p> <p>如果你有留意，在执行 <code>npx webpack</code> 命令时，终端会输出以下信息</p> <p>生成的 app.js 文件居然有 1M 那么大，要知道，小程序有 2M 的大小限制，这个不用担心，稍后我们通过 webpack 配置来优化它。</p> <p>而现在，我们开始写 webpack 插件。</p> <p>前面，我们通过以下方式来配置小程序的入口，</p> <div class="language- extra-class"><pre class="language-text"><code>entry: {
+  &lt;span class=&quot;hljs-string&quot;&gt;'app'&lt;/span&gt;: &lt;span class=&quot;hljs-string&quot;&gt;'./app.js'&lt;/span&gt;,
+  &lt;span class=&quot;hljs-string&quot;&gt;'pages/index/index'&lt;/span&gt;: &lt;span class=&quot;hljs-string&quot;&gt;'./pages/index/index.js'&lt;/span&gt;,
+  &lt;span class=&quot;hljs-string&quot;&gt;'pages/logs/logs'&lt;/span&gt;: &lt;span class=&quot;hljs-string&quot;&gt;'./pages/logs/logs.js'&lt;/span&gt;,
+},
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><p>这实在是太丑陋啦，这意味着每写一个 page 或 component，就得配置一次，我们写个 webpack 插件来处理这件事情。</p> <p>首先安装一个可以替换文件扩展名的依赖</p> <div class="language- extra-class"><pre class="language-text"><code>npm i --save-dev replace-ext
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><p>在项目根目录中创建一个叫 plugin 的文件夹，在里面创建一个叫 MinaWebpackPlugin.js 的文件，内容如下：</p> <div class="language- extra-class"><pre class="language-text"><code>
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; SingleEntryPlugin = &lt;span class=&quot;hljs-built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;hljs-string&quot;&gt;'webpack/lib/SingleEntryPlugin'&lt;/span&gt;)
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; MultiEntryPlugin = &lt;span class=&quot;hljs-built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;hljs-string&quot;&gt;'webpack/lib/MultiEntryPlugin'&lt;/span&gt;)
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; path = &lt;span class=&quot;hljs-built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;hljs-string&quot;&gt;'path'&lt;/span&gt;)
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; fs = &lt;span class=&quot;hljs-built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;hljs-string&quot;&gt;'fs'&lt;/span&gt;)
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; replaceExt = &lt;span class=&quot;hljs-built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;hljs-string&quot;&gt;'replace-ext'&lt;/span&gt;)
+
+&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;itemToPlugin&lt;/span&gt;(&lt;span class=&quot;hljs-params&quot;&gt;context, item, name&lt;/span&gt;) &lt;/span&gt;{
+  &lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt; (&lt;span class=&quot;hljs-built_in&quot;&gt;Array&lt;/span&gt;.isArray(item)) {
+    &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;new&lt;/span&gt; MultiEntryPlugin(context, item, name)
+  }
+  &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;new&lt;/span&gt; SingleEntryPlugin(context, item, name)
+}
+
+&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;_inflateEntries&lt;/span&gt;(&lt;span class=&quot;hljs-params&quot;&gt;entries = [], dirname, entry&lt;/span&gt;) &lt;/span&gt;{
+  &lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; configFile = replaceExt(entry, &lt;span class=&quot;hljs-string&quot;&gt;'.json'&lt;/span&gt;)
+  &lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; content = fs.readFileSync(configFile, &lt;span class=&quot;hljs-string&quot;&gt;'utf8'&lt;/span&gt;)
+  &lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; config = &lt;span class=&quot;hljs-built_in&quot;&gt;JSON&lt;/span&gt;.parse(content)
+
+  ;[&lt;span class=&quot;hljs-string&quot;&gt;'pages'&lt;/span&gt;, &lt;span class=&quot;hljs-string&quot;&gt;'usingComponents'&lt;/span&gt;].forEach(&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-params&quot;&gt;key&lt;/span&gt; =&gt;&lt;/span&gt; {
+    &lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; items = config[key]
+    &lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt; (&lt;span class=&quot;hljs-keyword&quot;&gt;typeof&lt;/span&gt; items === &lt;span class=&quot;hljs-string&quot;&gt;'object'&lt;/span&gt;) {
+      &lt;span class=&quot;hljs-built_in&quot;&gt;Object&lt;/span&gt;.values(items).forEach(&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-params&quot;&gt;item&lt;/span&gt; =&gt;&lt;/span&gt; inflateEntries(entries, dirname, item))
+    }
+  })
+}
+
+&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;inflateEntries&lt;/span&gt;(&lt;span class=&quot;hljs-params&quot;&gt;entries, dirname, entry&lt;/span&gt;) &lt;/span&gt;{
+  entry = path.resolve(dirname, entry)
+  &lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt; (entry != &lt;span class=&quot;hljs-literal&quot;&gt;null&lt;/span&gt; &amp;&amp; !entries.includes(entry)) {
+    entries.push(entry)
+    _inflateEntries(entries, path.dirname(entry), entry)
+  }
+}
+
+&lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;MinaWebpackPlugin&lt;/span&gt; &lt;/span&gt;{
+  &lt;span class=&quot;hljs-keyword&quot;&gt;constructor&lt;/span&gt;() {
+    &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.entries = []
+  }
+
+  apply(compiler) {
+    &lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; { context, entry } = compiler.options
+
+    inflateEntries(&lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.entries, context, entry)
+
+    compiler.hooks.entryOption.tap(&lt;span class=&quot;hljs-string&quot;&gt;'MinaWebpackPlugin'&lt;/span&gt;, () =&gt; {
+      &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.entries
+
+        .map(&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-params&quot;&gt;item&lt;/span&gt; =&gt;&lt;/span&gt; replaceExt(item, &lt;span class=&quot;hljs-string&quot;&gt;'.js'&lt;/span&gt;))
+
+        .map(&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-params&quot;&gt;item&lt;/span&gt; =&gt;&lt;/span&gt; path.relative(context, item))
+
+        .forEach(&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-params&quot;&gt;item&lt;/span&gt; =&gt;&lt;/span&gt; itemToPlugin(context, &lt;span class=&quot;hljs-string&quot;&gt;'./'&lt;/span&gt; + item, replaceExt(item, &lt;span class=&quot;hljs-string&quot;&gt;''&lt;/span&gt;)).apply(compiler))
+
+      &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hljs-literal&quot;&gt;true&lt;/span&gt;
+    })
+  }
+}
+
+&lt;span class=&quot;hljs-built_in&quot;&gt;module&lt;/span&gt;.exports = MinaWebpackPlugin
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><p>该插件所做的事情，和我们手动配置 entry 所做的一模一样，通过代码分析 .json 文件，找到所有可能的入口文件，添加到 webpack。</p> <p>修改 webpack.config.js，应用该插件</p> <div class="language- extra-class"><pre class="language-text"><code>&lt;span class=&quot;hljs-addition&quot;&gt;+ const MinaWebpackPlugin = require('./plugin/MinaWebpackPlugin');&lt;/span&gt;
+
+module.exports = {
+   context: resolve('src'),
+&lt;span class=&quot;hljs-deletion&quot;&gt;-  entry: {&lt;/span&gt;
+&lt;span class=&quot;hljs-deletion&quot;&gt;-    'app'              : './app.js',&lt;/span&gt;
+&lt;span class=&quot;hljs-deletion&quot;&gt;-    'pages/index/index': './pages/index/index.js',&lt;/span&gt;
+&lt;span class=&quot;hljs-deletion&quot;&gt;-    'pages/logs/logs'  : './pages/logs/logs.js'&lt;/span&gt;
+&lt;span class=&quot;hljs-deletion&quot;&gt;-  },&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+  entry: './app.js',&lt;/span&gt;
+
+   plugins: [
+&lt;span class=&quot;hljs-addition&quot;&gt;+    new MinaWebpackPlugin()&lt;/span&gt;
+   ],
+   mode: 'none'
+};
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><p>执行 <code>npx webpack</code>，顺利通过！</p> <p>上面的插件代码是否读得不太懂？因为我们还没有了解 webpack 的工作流程。</p> <h2 id="webpack-构建流程"><a href="#webpack-构建流程" aria-hidden="true" class="header-anchor">#</a> webpack 构建流程</h2> <p>编程就是处理输入和输出的技术，webpack 好比一台机器，entry 就是原材料，经过若干道工序（plugin, loader），产生若干中间产物 (dependency, module, chunk, assets)，最终将产品放到 dist 文件夹中。</p> <p>我们在讲解 webpack 流程时，对理解我们将要编写的小程序 webpack 插件有帮助的地方会详情讲解，其它地方会简略，如果希望对 webpack 流程有比较深刻的理解，还需要阅读其它资料以及源码。</p> <p>当我们执行 <code>npx webpack</code> 这样的命令时，webpack 会解析 webpack.config.js 文件，以及命令行参数，将其中的配置和参数合成一个 options 对象，然后调用 <a href="https://link.juejin.im?target=https%3A%2F%2Fgithub.com%2Fwebpack%2Fwebpack%2Fblob%2Fmaster%2Flib%2Fwebpack.js%23L25" target="_blank" rel="noopener noreferrer">webpack 函数<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></p> <div class="language- extra-class"><pre class="language-text"><code>
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; webpack = &lt;span class=&quot;hljs-function&quot;&gt;(&lt;span class=&quot;hljs-params&quot;&gt;options, callback&lt;/span&gt;) =&gt;&lt;/span&gt; {
+  &lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; compiler
+
+  options = &lt;span class=&quot;hljs-keyword&quot;&gt;new&lt;/span&gt; WebpackOptionsDefaulter().process(options)
+
+  compiler = &lt;span class=&quot;hljs-keyword&quot;&gt;new&lt;/span&gt; Compiler(options.context)
+  compiler.options = options
+
+  &lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt; (options.plugins &amp;&amp; &lt;span class=&quot;hljs-built_in&quot;&gt;Array&lt;/span&gt;.isArray(options.plugins)) {
+    &lt;span class=&quot;hljs-keyword&quot;&gt;for&lt;/span&gt; (&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; plugin &lt;span class=&quot;hljs-keyword&quot;&gt;of&lt;/span&gt; options.plugins) {
+      plugin.apply(compiler)
+    }
+  }
+
+  compiler.options = &lt;span class=&quot;hljs-keyword&quot;&gt;new&lt;/span&gt; WebpackOptionsApply().process(options, compiler)
+
+  compiler.run(callback)
+  &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; compiler
+}
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><p>在这个函数中，创建了 compiler 对象，并将完整的配置参数 options 保存到 compiler 对象中，最后调用了 compiler 的 run 方法。</p> <p>compiler 对象代表了完整的 webpack 环境配置。这个对象在启动 webpack 时被一次性建立，并配置好所有可操作的设置，包括 options，loader 和 plugin。可以使用 compiler 来访问 webpack 的主环境。</p> <p>从以上源码可以看到，用户配置的 plugin 先于内置的 plugin 被应用。</p> <div class="language- extra-class"><pre class="language-text"><code>
+&lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;WebpackOptionsApply&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;OptionsApply&lt;/span&gt; &lt;/span&gt;{
+  process(options, compiler) {
+    &lt;span class=&quot;hljs-keyword&quot;&gt;new&lt;/span&gt; EntryOptionPlugin().apply(compiler)
+    compiler.hooks.entryOption.call(options.context, options.entry)
+  }
+}
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><p>WebpackOptionsApply 应用了 EntryOptionPlugin 插件并立即触发了 compiler 的 entryOption 事件钩子，</p> <p><a href="https://link.juejin.im?target=https%3A%2F%2Fgithub.com%2Fwebpack%2Fwebpack%2Fblob%2Fmaster%2Flib%2FCompiler.js%23L98" target="_blank" rel="noopener noreferrer">entryOption<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> 是个 SyncBailHook, 意味着只要有一个插件返回了 true, 注册在这个钩子上的后续插件代码，将不会被调用。我们在编写小程序插件时，用到了这个特性。</p> <div class="language- extra-class"><pre class="language-text"><code>
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; itemToPlugin = &lt;span class=&quot;hljs-function&quot;&gt;(&lt;span class=&quot;hljs-params&quot;&gt;context, item, name&lt;/span&gt;) =&gt;&lt;/span&gt; {
+  &lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt; (&lt;span class=&quot;hljs-built_in&quot;&gt;Array&lt;/span&gt;.isArray(item)) {
+    &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;new&lt;/span&gt; MultiEntryPlugin(context, item, name)
+  }
+  &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;new&lt;/span&gt; SingleEntryPlugin(context, item, name)
+}
+
+&lt;span class=&quot;hljs-built_in&quot;&gt;module&lt;/span&gt;.exports = &lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;EntryOptionPlugin&lt;/span&gt; &lt;/span&gt;{
+  apply(compiler) {
+    compiler.hooks.entryOption.tap(&lt;span class=&quot;hljs-string&quot;&gt;'EntryOptionPlugin'&lt;/span&gt;, (context, entry) =&gt; {
+      &lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt; (&lt;span class=&quot;hljs-keyword&quot;&gt;typeof&lt;/span&gt; entry === &lt;span class=&quot;hljs-string&quot;&gt;'string'&lt;/span&gt; || &lt;span class=&quot;hljs-built_in&quot;&gt;Array&lt;/span&gt;.isArray(entry)) {
+
+        itemToPlugin(context, entry, &lt;span class=&quot;hljs-string&quot;&gt;'main'&lt;/span&gt;).apply(compiler)
+      } &lt;span class=&quot;hljs-keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt; (&lt;span class=&quot;hljs-keyword&quot;&gt;typeof&lt;/span&gt; entry === &lt;span class=&quot;hljs-string&quot;&gt;'object'&lt;/span&gt;) {
+        &lt;span class=&quot;hljs-keyword&quot;&gt;for&lt;/span&gt; (&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; name &lt;span class=&quot;hljs-keyword&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;hljs-built_in&quot;&gt;Object&lt;/span&gt;.keys(entry)) {
+          itemToPlugin(context, entry[name], name).apply(compiler)
+        }
+      } &lt;span class=&quot;hljs-keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt; (&lt;span class=&quot;hljs-keyword&quot;&gt;typeof&lt;/span&gt; entry === &lt;span class=&quot;hljs-string&quot;&gt;'function'&lt;/span&gt;) {
+        &lt;span class=&quot;hljs-keyword&quot;&gt;new&lt;/span&gt; DynamicEntryPlugin(context, entry).apply(compiler)
+      }
+
+      &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hljs-literal&quot;&gt;true&lt;/span&gt;
+    })
+  }
+}
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><p>EntryOptionPlugin 中的代码非常简单，它主要是根据 entry 的类型，把工作委托给 <code>SingleEntryPlugin</code>, <code>MultiEntryPlugin</code> 以及 <code>DynamicEntryPlugin</code>。</p> <div class="language- extra-class"><pre class="language-text"><code>
+&lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;SingleEntryPlugin&lt;/span&gt; &lt;/span&gt;{
+  &lt;span class=&quot;hljs-keyword&quot;&gt;constructor&lt;/span&gt;(context, entry, name) {
+    &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.context = context
+    &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.entry = entry
+    &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.name = name
+  }
+
+  apply(compiler) {
+
+    compiler.hooks.compilation.tap(&lt;span class=&quot;hljs-string&quot;&gt;'SingleEntryPlugin'&lt;/span&gt;, (compilation, { normalModuleFactory }) =&gt; {
+
+      compilation.dependencyFactories.set(SingleEntryDependency, normalModuleFactory)
+    })
+
+    compiler.hooks.make.tapAsync(&lt;span class=&quot;hljs-string&quot;&gt;'SingleEntryPlugin'&lt;/span&gt;, (compilation, callback) =&gt; {
+      &lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; { entry, name, context } = &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;
+
+      &lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; dep = SingleEntryPlugin.createDependency(entry, name)
+
+      compilation.addEntry(context, dep, name, callback)
+    })
+  }
+
+  &lt;span class=&quot;hljs-keyword&quot;&gt;static&lt;/span&gt; createDependency(entry, name) {
+    &lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; dep = &lt;span class=&quot;hljs-keyword&quot;&gt;new&lt;/span&gt; SingleEntryDependency(entry)
+    dep.loc = { name }
+    &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; dep
+  }
+}
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><p>那么 make 事件又是如何被触发的呢？当 WebpackOptionsApply.process 执行完后，将会调用 compiler 的 run 方法，而 run 方法又调用了 compile 方法，在里面触发了 make 事件钩子，如下面代码所示：</p> <div class="language- extra-class"><pre class="language-text"><code>
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; webpack = &lt;span class=&quot;hljs-function&quot;&gt;(&lt;span class=&quot;hljs-params&quot;&gt;options, callback&lt;/span&gt;) =&gt;&lt;/span&gt; {
+
+  compiler.options = &lt;span class=&quot;hljs-keyword&quot;&gt;new&lt;/span&gt; WebpackOptionsApply().process(options, compiler)
+
+  compiler.run(callback)
+}
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><div class="language- extra-class"><pre class="language-text"><code>
+&lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;Compiler&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;Tapable&lt;/span&gt; &lt;/span&gt;{
+  run(callback) {
+    &lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; onCompiled = &lt;span class=&quot;hljs-function&quot;&gt;(&lt;span class=&quot;hljs-params&quot;&gt;err, compilation&lt;/span&gt;) =&gt;&lt;/span&gt; {
+
+    }
+
+    &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.compile(onCompiled)
+  }
+
+  compile(callback) {
+    &lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; params = &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.newCompilationParams()
+    &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.hooks.compile.call(params)
+
+    &lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; compilation = &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.newCompilation(params)
+
+    &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.hooks.make.callAsync(compilation, err =&gt; {
+
+    })
+  }
+
+  newCompilation(params) {
+    &lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; compilation = &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.createCompilation()
+
+    &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.hooks.compilation.call(compilation, params)
+    &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; compilation
+  }
+}
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><p>webpack 函数创建了 compiler 对象，而 compiler 对象创建了 compilation 对象。compiler 对象代表了完整的 webpack 环境配置，而 compilatoin 对象则负责整个打包过程，它存储着打包过程的中间产物。compiler 对象触发 make 事件后，控制权就会转移到 compilation，compilation 通过调用 addEntry 方法，开始了编译与构建主流程。</p> <p>现在，我们有足够的知识理解之前编写的 webpack 插件了</p> <div class="language- extra-class"><pre class="language-text"><code>
+&lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;MinaWebpackPlugin&lt;/span&gt; &lt;/span&gt;{
+  &lt;span class=&quot;hljs-keyword&quot;&gt;constructor&lt;/span&gt;() {
+    &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.entries = []
+  }
+
+  apply(compiler) {
+    &lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; { context, entry } = compiler.options
+    inflateEntries(&lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.entries, context, entry)
+
+    compiler.hooks.entryOption.tap(pluginName, () =&gt; {
+      &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.entries
+        .map(&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-params&quot;&gt;item&lt;/span&gt; =&gt;&lt;/span&gt; replaceExt(item, &lt;span class=&quot;hljs-string&quot;&gt;'.js'&lt;/span&gt;))
+        .map(&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-params&quot;&gt;item&lt;/span&gt; =&gt;&lt;/span&gt; path.relative(context, item))
+
+        .forEach(&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-params&quot;&gt;item&lt;/span&gt; =&gt;&lt;/span&gt; itemToPlugin(context, &lt;span class=&quot;hljs-string&quot;&gt;'./'&lt;/span&gt; + item, replaceExt(item, &lt;span class=&quot;hljs-string&quot;&gt;''&lt;/span&gt;)).apply(compiler))
+
+      &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hljs-literal&quot;&gt;true&lt;/span&gt;
+    })
+  }
+}
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><blockquote><p>为了动态注册入口，除了可以监听 entryOption 这个钩子外，我们还可以监听 make 这个钩子来达到同样的目的。</p></blockquote> <p><code>addEntry</code> 中调用了私有方法 <code>_addModuleChain</code> ，这个方法主要做了两件事情。一是根据模块的类型获取对应的模块工厂并创建模块，二是构建模块。</p> <div class="language- extra-class"><pre class="language-text"><code>&lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;Compilation&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;Tapable&lt;/span&gt; &lt;/span&gt;{
+
+  addEntry(context, entry, name, callback) {
+    &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;._addModuleChain(context, entry, onModule, callbak)
+  }
+
+  _addModuleChain(context, dependency, onModule, callback) {
+    &lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; Dep = dependency.constructor
+
+    &lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; moduleFactory = &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.dependencyFactories.get(Dep)
+
+    moduleFactory.create()
+  }
+
+  buildModule(&lt;span class=&quot;hljs-built_in&quot;&gt;module&lt;/span&gt;, optional, origin, dependencies, thisCallback) {
+
+    &lt;span class=&quot;hljs-built_in&quot;&gt;module&lt;/span&gt;.build()
+  }
+}
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><p>在所有的模块构建完成后，webpack 调用 <code>compilation.seal</code> 方法，开始生成 chunks。</p> <div class="language- extra-class"><pre class="language-text"><code>
+&lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;Compiler&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;Tapable&lt;/span&gt; &lt;/span&gt;{
+  compile(callback) {
+    &lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; params = &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.newCompilationParams()
+    &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.hooks.compile.call(params)
+
+    &lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; compilation = &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.newCompilation(params)
+
+    &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.hooks.make.callAsync(compilation, err =&gt; {
+
+      compilation.seal(&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-params&quot;&gt;err&lt;/span&gt; =&gt;&lt;/span&gt; {})
+    })
+  }
+}
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><p><code>seal</code> 方法包含了优化、分块、哈希，编译停止接收新模块，开始生成 chunks。此阶段依赖了一些 webpack 内部插件对 module 进行优化，为本次构建生成的 chunk 加入 hash 等。</p> <div class="language- extra-class"><pre class="language-text"><code>
+&lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;Compilation&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;Tapable&lt;/span&gt; &lt;/span&gt;{
+  seal(callback) {
+
+    &lt;span class=&quot;hljs-keyword&quot;&gt;for&lt;/span&gt; (&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; preparedEntrypoint &lt;span class=&quot;hljs-keyword&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;._preparedEntrypoints) {
+      &lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;hljs-built_in&quot;&gt;module&lt;/span&gt; = preparedEntrypoint.module
+      &lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; name = preparedEntrypoint.name
+
+      &lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; chunk = &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.addChunk(name)
+
+      &lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; entrypoint = &lt;span class=&quot;hljs-keyword&quot;&gt;new&lt;/span&gt; Entrypoint(name)
+      entrypoint.setRuntimeChunk(chunk)
+      entrypoint.addOrigin(&lt;span class=&quot;hljs-literal&quot;&gt;null&lt;/span&gt;, name, preparedEntrypoint.request)
+
+      &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.namedChunkGroups.set(name, entrypoint)
+      &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.entrypoints.set(name, entrypoint)
+      &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.chunkGroups.push(entrypoint)
+
+      GraphHelpers.connectChunkGroupAndChunk(entrypoint, chunk)
+
+      GraphHelpers.connectChunkAndModule(chunk, &lt;span class=&quot;hljs-built_in&quot;&gt;module&lt;/span&gt;)
+
+      chunk.entryModule = &lt;span class=&quot;hljs-built_in&quot;&gt;module&lt;/span&gt;
+      chunk.name = name
+
+      &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.assignDepth(&lt;span class=&quot;hljs-built_in&quot;&gt;module&lt;/span&gt;)
+    }
+
+    &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.processDependenciesBlocksForChunkGroups(&lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.chunkGroups.slice())
+
+    &lt;span class=&quot;hljs-keyword&quot;&gt;while&lt;/span&gt; (
+      &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.hooks.optimizeChunksBasic.call(&lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.chunks, &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.chunkGroups) ||
+      &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.hooks.optimizeChunks.call(&lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.chunks, &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.chunkGroups) ||
+      &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.hooks.optimizeChunksAdvanced.call(&lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.chunks, &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.chunkGroups)
+    ) {
+
+    }
+    &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.hooks.afterOptimizeChunks.call(&lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.chunks, &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.chunkGroups)
+
+    &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.createHash()
+
+    &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.hooks.beforeChunkAssets.call()
+
+    &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.createChunkAssets()
+  }
+}
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><p>Compilation 在实例化的时候，就会同时实例化三个对象：MainTemplate, ChunkTemplate，ModuleTemplate。这三个对象是用来渲染 chunk 对象，得到最终代码的模板。</p> <div class="language- extra-class"><pre class="language-text"><code>&lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;Compilation&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;Tapable&lt;/span&gt; &lt;/span&gt;{
+
+  createChunkAssets() {
+
+    &lt;span class=&quot;hljs-keyword&quot;&gt;for&lt;/span&gt; (&lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; i = &lt;span class=&quot;hljs-number&quot;&gt;0&lt;/span&gt;; i &lt; &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.chunks.length; i++) {
+
+      &lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; template = chunk.hasRuntime() ? &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.mainTemplate : &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.chunkTemplate
+    }
+  }
+}
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><p>接下来我们看 MainTemplate 是如何渲染 chunk 的。</p> <div class="language- extra-class"><pre class="language-text"><code>
+&lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;MainTemplate&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;Tapable&lt;/span&gt; &lt;/span&gt;{
+  &lt;span class=&quot;hljs-keyword&quot;&gt;constructor&lt;/span&gt;(outputOptions) {
+    &lt;span class=&quot;hljs-keyword&quot;&gt;super&lt;/span&gt;()
+    &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.hooks = {
+      &lt;span class=&quot;hljs-attr&quot;&gt;bootstrap&lt;/span&gt;: &lt;span class=&quot;hljs-keyword&quot;&gt;new&lt;/span&gt; SyncWaterfallHook([&lt;span class=&quot;hljs-string&quot;&gt;'source'&lt;/span&gt;, &lt;span class=&quot;hljs-string&quot;&gt;'chunk'&lt;/span&gt;, &lt;span class=&quot;hljs-string&quot;&gt;'hash'&lt;/span&gt;, &lt;span class=&quot;hljs-string&quot;&gt;'moduleTemplate'&lt;/span&gt;, &lt;span class=&quot;hljs-string&quot;&gt;'dependencyTemplates'&lt;/span&gt;]),
+      &lt;span class=&quot;hljs-attr&quot;&gt;render&lt;/span&gt;: &lt;span class=&quot;hljs-keyword&quot;&gt;new&lt;/span&gt; SyncWaterfallHook([&lt;span class=&quot;hljs-string&quot;&gt;'source'&lt;/span&gt;, &lt;span class=&quot;hljs-string&quot;&gt;'chunk'&lt;/span&gt;, &lt;span class=&quot;hljs-string&quot;&gt;'hash'&lt;/span&gt;, &lt;span class=&quot;hljs-string&quot;&gt;'moduleTemplate'&lt;/span&gt;, &lt;span class=&quot;hljs-string&quot;&gt;'dependencyTemplates'&lt;/span&gt;]),
+      &lt;span class=&quot;hljs-attr&quot;&gt;renderWithEntry&lt;/span&gt;: &lt;span class=&quot;hljs-keyword&quot;&gt;new&lt;/span&gt; SyncWaterfallHook([&lt;span class=&quot;hljs-string&quot;&gt;'source'&lt;/span&gt;, &lt;span class=&quot;hljs-string&quot;&gt;'chunk'&lt;/span&gt;, &lt;span class=&quot;hljs-string&quot;&gt;'hash'&lt;/span&gt;]),
+    }
+
+    &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.hooks.render.tap(&lt;span class=&quot;hljs-string&quot;&gt;'MainTemplate'&lt;/span&gt;, (bootstrapSource, chunk, hash, moduleTemplate, dependencyTemplates) =&gt; {
+      &lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; source = &lt;span class=&quot;hljs-keyword&quot;&gt;new&lt;/span&gt; ConcatSource()
+
+      source.add(&lt;span class=&quot;hljs-keyword&quot;&gt;new&lt;/span&gt; PrefixSource(&lt;span class=&quot;hljs-string&quot;&gt;'/******/'&lt;/span&gt;, bootstrapSource))
+
+      source.add(&lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.hooks.modules.call(&lt;span class=&quot;hljs-keyword&quot;&gt;new&lt;/span&gt; RawSource(&lt;span class=&quot;hljs-string&quot;&gt;''&lt;/span&gt;), chunk, hash, moduleTemplate, dependencyTemplates))
+
+      &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; source
+    })
+  }
+
+  render(hash, chunk, moduleTemplate, dependencyTemplates) {
+
+    &lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; buf = &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.renderBootstrap(hash, chunk, moduleTemplate, dependencyTemplates)
+
+    &lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; source = &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.hooks.render.call(
+
+      &lt;span class=&quot;hljs-keyword&quot;&gt;new&lt;/span&gt; OriginalSource(Template.prefix(buf, &lt;span class=&quot;hljs-string&quot;&gt;' \t'&lt;/span&gt;) + &lt;span class=&quot;hljs-string&quot;&gt;'\n'&lt;/span&gt;, &lt;span class=&quot;hljs-string&quot;&gt;'webpack/bootstrap'&lt;/span&gt;),
+      chunk,
+      hash,
+      moduleTemplate,
+      dependencyTemplates,
+    )
+
+    &lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt; (chunk.hasEntryModule()) {
+
+      source = &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.hooks.renderWithEntry.call(source, chunk, hash)
+    }
+    &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;new&lt;/span&gt; ConcatSource(source, &lt;span class=&quot;hljs-string&quot;&gt;';'&lt;/span&gt;)
+  }
+
+  renderBootstrap(hash, chunk, moduleTemplate, dependencyTemplates) {
+    &lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; buf = []
+
+    buf.push(&lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.hooks.bootstrap.call(&lt;span class=&quot;hljs-string&quot;&gt;''&lt;/span&gt;, chunk, hash, moduleTemplate, dependencyTemplates))
+    &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; buf
+  }
+}
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><p>所谓渲染就是生成代码的过程，代码就是字符串，渲染就是拼接和替换字符串的过程。</p> <p>最终渲染好的代码会存放在 compilation 的 assets 属性中。</p> <p>最后，webpack 调用 Compiler 的 emitAssets 方法，按照 output 中的配置项将文件输出到了对应的 path 中，从而结束整个打包过程。</p> <div class="language- extra-class"><pre class="language-text"><code>
+&lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;Compiler&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;Tapable&lt;/span&gt; &lt;/span&gt;{
+  run(callback) {
+    &lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; onCompiled = &lt;span class=&quot;hljs-function&quot;&gt;(&lt;span class=&quot;hljs-params&quot;&gt;err, compilation&lt;/span&gt;) =&gt;&lt;/span&gt; {
+
+      &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.emitAssets(compilation, err =&gt; {})
+    }
+
+    &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.compile(onCompiled)
+  }
+
+  emitAssets(compilation, callback) {
+    &lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; emitFiles = &lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-params&quot;&gt;err&lt;/span&gt; =&gt;&lt;/span&gt; {}
+
+    &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.hooks.emit.callAsync(compilation, err =&gt; {
+      outputPath = compilation.getPath(&lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.outputPath)
+      &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.outputFileSystem.mkdirp(outputPath, emitFiles)
+    })
+  }
+
+  compile(onCompiled) {
+    &lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; params = &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.newCompilationParams()
+    &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.hooks.compile.call(params)
+
+    &lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; compilation = &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.newCompilation(params)
+
+    &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.hooks.make.callAsync(compilation, err =&gt; {
+
+      compilation.seal(&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-params&quot;&gt;err&lt;/span&gt; =&gt;&lt;/span&gt; {
+
+        &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; onCompiled(&lt;span class=&quot;hljs-literal&quot;&gt;null&lt;/span&gt;, compilation)
+      })
+    })
+  }
+}
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><h2 id="分离-runtime"><a href="#分离-runtime" aria-hidden="true" class="header-anchor">#</a> 分离 Runtime</h2> <p>现在，回到我们的小程序项目，确保 app.js 已经移除了下列代码</p> <div class="language- extra-class"><pre class="language-text"><code>// app.js
+&lt;span class=&quot;hljs-deletion&quot;&gt;- import moment from 'moment';&lt;/span&gt;
+&lt;span class=&quot;hljs-deletion&quot;&gt;- import { camelCase } from 'lodash';&lt;/span&gt;
+App({
+  onLaunch: function () {
+&lt;span class=&quot;hljs-deletion&quot;&gt;-    console.log('-----------------------------------------------x');&lt;/span&gt;
+&lt;span class=&quot;hljs-deletion&quot;&gt;-    let sFromNowText = moment(new Date().getTime() - 360000).fromNow();&lt;/span&gt;
+&lt;span class=&quot;hljs-deletion&quot;&gt;-    console.log(sFromNowText);&lt;/span&gt;
+&lt;span class=&quot;hljs-deletion&quot;&gt;-    console.log(camelCase('OnLaunch'));&lt;/span&gt;
+  }
+})
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><p>执行 <code>npx webpack</code>，观察生成的代码</p> <p>由 mainTemplate 生成的 webpackBootstrap 代码就是 webpack runtime 的代码，是整个应用的执行起点。moduleTemplate 则把我们的代码包裹在一个模块包装器函数中。</p> <p>代码行有 <code>/******/</code> 前缀的表示该行代码由 mainTemplate 生成，有 <code>/***/</code> 前缀的表示该行代码由 moduleTemplate 生成，没有前缀的就是我们编写的经过 loader 处理后的模块代码。</p> <p>我们再来看看 dist/logs/logs.js 的代码</p> <p>可以看到</p> <ul><li>同样生成了 webpack runtime 代码，</li> <li>utils/util.js 中的代码被合并到了 dist/logs/logs.js</li> <li>logs.js 和 util.js 中的代码分别被包裹在模块包装器中</li></ul> <p>哪些数字是什么意思呢？它们表示模块的 id。</p> <p>从上面的代码可以看到，logs.js 通过 <code>__webpack_require__(3)</code> 导入了 id 为 3 的模块，这正是 util.js。</p> <p>我们不希望每个入口文件都生成 runtime 代码，而是希望将其抽离到一个单独的文件中，以减少 app 的体积。我们通过<a href="https://link.juejin.im?target=https%3A%2F%2Fwebpack.docschina.org%2Fconfiguration%2Foptimization%2F%23optimization-runtimechunk" target="_blank" rel="noopener noreferrer">配置 runtimeChunk<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> 来达到这一目的。</p> <p>修改 webpack.config.js 文件，添加如下配置</p> <div class="language- extra-class"><pre class="language-text"><code>module.exports = {
+&lt;span class=&quot;hljs-addition&quot;&gt;+  optimization: {&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+    runtimeChunk: {&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+      name: 'runtime'&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+    }&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+  },&lt;/span&gt;
+  mode: 'none'
+}
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><p>执行 <code>npx webpack</code>，</p> <p>可以看到，在 dist 目录中，生成了名为 runtime.js 的文件</p> <p>现在我们开看看 dist/app.js</p> <p>这似乎是要把 app.js 模块存放到全局对象 window 中，但是小程序中并没有 window 对象，只有 wx。我们在 webpack.config.js 中，把全局对象配置为 <code>wx</code></p> <div class="language- extra-class"><pre class="language-text"><code>module.exports = {
+  output: {
+    path: resolve('dist'),
+&lt;span class=&quot;hljs-deletion&quot;&gt;-   filename: '[name].js'&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+   filename: '[name].js',&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+   globalObject: 'wx'&lt;/span&gt;
+  },
+}
+&lt;span class=&quot;copy-code-btn&quot;&gt;&amp;#x590D;&amp;#x5236;&amp;#x4EE3;&amp;#x7801;&lt;/span&gt;
+</code></pre></div><p>然而，还是有问题，我们的小程序已经跑不起来了</p> <p>这是因为小程序和 web 应用不一样，web 应用可以通过 ``<script>&lt;/code&gt; 标签引用 runtime.js，然而小程序却不能这样。&lt;/p&gt;&lt;p&gt;我们必须让其它模块感知到 runtime.js 的存在，因为 runtime.js 里面是个立即调用函数表达式，所以只要导入 runtime.js 即可。&lt;/p&gt;&lt;p&gt;我们在 assets 渲染阶段曾经提到过：&lt;/p&gt;&lt;pre&gt;&lt;code class=&quot;hljs js copyable&quot;&gt;
+&lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt; (chunk.hasEntryModule()) {&lt;/p&gt;
+&lt;p&gt;source = &lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.hooks.renderWithEntry.call(source, chunk, hash)
+}
+&lt;span class=&quot;copy-code-btn&quot;&gt;复制代码&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;之前的 MinaWebpackPlugin 是用来处理 entry 的，这里我们遵循单一职责原则，编写另一个插件来处理 runtime。&lt;/p&gt;&lt;p&gt;为了方便讲解和学习，我们将其中的代码略作删改，复制到 plugin/MinaRuntimePlugin.js 中&lt;/p&gt;&lt;pre&gt;&lt;code class=&quot;hljs js copyable&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; path = &lt;span class=&quot;hljs-built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;hljs-string&quot;&gt;'path'&lt;/span&gt;)
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; ensurePosix = &lt;span class=&quot;hljs-built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;hljs-string&quot;&gt;'ensure-posix-path'&lt;/span&gt;)
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; { ConcatSource } = &lt;span class=&quot;hljs-built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;hljs-string&quot;&gt;'webpack-sources'&lt;/span&gt;)
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; requiredPath = &lt;span class=&quot;hljs-built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;hljs-string&quot;&gt;'required-path'&lt;/span&gt;)&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;isRuntimeExtracted&lt;/span&gt;(&lt;span class=&quot;hljs-params&quot;&gt;compilation&lt;/span&gt;) &lt;/span&gt;{
+&lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; compilation.chunks.some(&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-params&quot;&gt;chunk&lt;/span&gt; =&amp;gt;&lt;/span&gt; chunk.isOnlyInitial() &amp;amp;&amp;amp; chunk.hasRuntime() &amp;amp;&amp;amp; !chunk.hasEntryModule())
+}&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;script&lt;/span&gt;(&lt;span class=&quot;hljs-params&quot;&gt;{ dependencies }&lt;/span&gt;) &lt;/span&gt;{
+&lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hljs-string&quot;&gt;';'&lt;/span&gt; + dependencies.map(&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-params&quot;&gt;file&lt;/span&gt; =&amp;gt;&lt;/span&gt; &lt;span class=&quot;hljs-string&quot;&gt;&lt;code&gt;require('&amp;lt;span class=&amp;quot;hljs-subst&amp;quot;&amp;gt;${requiredPath(file)}&amp;lt;/span&amp;gt;');&lt;/code&gt;&lt;/span&gt;).join(&lt;span class=&quot;hljs-string&quot;&gt;''&lt;/span&gt;)
+}&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;hljs-built_in&quot;&gt;module&lt;/span&gt;.exports = &lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;MinaRuntimeWebpackPlugin&lt;/span&gt; &lt;/span&gt;{
+&lt;span class=&quot;hljs-keyword&quot;&gt;constructor&lt;/span&gt;(options = {}) {
+&lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.runtime = options.runtime || &lt;span class=&quot;hljs-string&quot;&gt;''&lt;/span&gt;
+}&lt;/p&gt;
+&lt;p&gt;apply(compiler) {
+compiler.hooks.compilation.tap(&lt;span class=&quot;hljs-string&quot;&gt;'MinaRuntimePlugin'&lt;/span&gt;, compilation =&amp;gt; {
+&lt;span class=&quot;hljs-keyword&quot;&gt;for&lt;/span&gt; (&lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; template &lt;span class=&quot;hljs-keyword&quot;&gt;of&lt;/span&gt; [compilation.mainTemplate, compilation.chunkTemplate]) {&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;    template.hooks.renderWithEntry.tap(&amp;lt;span class=&amp;quot;hljs-string&amp;quot;&amp;gt;'MinaRuntimePlugin'&amp;lt;/span&amp;gt;, (source, entry) =&amp;gt; {
+      &amp;lt;span class=&amp;quot;hljs-keyword&amp;quot;&amp;gt;if&amp;lt;/span&amp;gt; (!isRuntimeExtracted(compilation)) {
+        &amp;lt;span class=&amp;quot;hljs-keyword&amp;quot;&amp;gt;throw&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;quot;hljs-keyword&amp;quot;&amp;gt;new&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;quot;hljs-built_in&amp;quot;&amp;gt;Error&amp;lt;/span&amp;gt;(
+          [
+            &amp;lt;span class=&amp;quot;hljs-string&amp;quot;&amp;gt;'Please reuse the runtime chunk to avoid duplicate loading of javascript files.'&amp;lt;/span&amp;gt;,
+            &amp;lt;span class=&amp;quot;hljs-string&amp;quot;&amp;gt;&amp;quot;Simple solution: set `optimization.runtimeChunk` to `{ name: 'runtime.js' }` .&amp;quot;&amp;lt;/span&amp;gt;,
+            &amp;lt;span class=&amp;quot;hljs-string&amp;quot;&amp;gt;'Detail of `optimization.runtimeChunk`: https://webpack.js.org/configuration/optimization/#optimization-runtimechunk .'&amp;lt;/span&amp;gt;,
+          ].join(&amp;lt;span class=&amp;quot;hljs-string&amp;quot;&amp;gt;'\n'&amp;lt;/span&amp;gt;),
+        )
+      }
+
+      &amp;lt;span class=&amp;quot;hljs-keyword&amp;quot;&amp;gt;if&amp;lt;/span&amp;gt; (!entry.hasEntryModule()) {
+        &amp;lt;span class=&amp;quot;hljs-keyword&amp;quot;&amp;gt;return&amp;lt;/span&amp;gt; source
+      }
+
+      &amp;lt;span class=&amp;quot;hljs-keyword&amp;quot;&amp;gt;let&amp;lt;/span&amp;gt; dependencies = []
+
+      entry.groupsIterable.forEach(&amp;lt;span class=&amp;quot;hljs-function&amp;quot;&amp;gt;&amp;lt;span class=&amp;quot;hljs-params&amp;quot;&amp;gt;group&amp;lt;/span&amp;gt; =&amp;gt;&amp;lt;/span&amp;gt; {
+        group.chunks.forEach(&amp;lt;span class=&amp;quot;hljs-function&amp;quot;&amp;gt;&amp;lt;span class=&amp;quot;hljs-params&amp;quot;&amp;gt;chunk&amp;lt;/span&amp;gt; =&amp;gt;&amp;lt;/span&amp;gt; {
+
+          &amp;lt;span class=&amp;quot;hljs-keyword&amp;quot;&amp;gt;let&amp;lt;/span&amp;gt; filename = ensurePosix(path.relative(path.dirname(entry.name), chunk.name))
+
+          &amp;lt;span class=&amp;quot;hljs-keyword&amp;quot;&amp;gt;if&amp;lt;/span&amp;gt; (chunk === entry || ~dependencies.indexOf(filename)) {
+            &amp;lt;span class=&amp;quot;hljs-keyword&amp;quot;&amp;gt;return&amp;lt;/span&amp;gt;
+          }
+          dependencies.push(filename)
+        })
+      })
+
+      source = &amp;lt;span class=&amp;quot;hljs-keyword&amp;quot;&amp;gt;new&amp;lt;/span&amp;gt; ConcatSource(script({ dependencies }), source)
+      &amp;lt;span class=&amp;quot;hljs-keyword&amp;quot;&amp;gt;return&amp;lt;/span&amp;gt; source
+    })
+  }
+})
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;}
+}
+&lt;span class=&quot;copy-code-btn&quot;&gt;复制代码&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;修改 webpack.config.js，应用该插件&lt;/p&gt;&lt;pre&gt;&lt;code class=&quot;hljs diff copyable&quot;&gt;  const MinaWebpackPlugin = require('./plugin/MinaWebpackPlugin');
+&lt;span class=&quot;hljs-addition&quot;&gt;+ const MinaRuntimePlugin = require('./plugin/MinaRuntimePlugin');&lt;/span&gt;
+module.exports = {
+plugins: [
+new MinaWebpackPlugin(),
+&lt;span class=&quot;hljs-addition&quot;&gt;+     new MinaRuntimePlugin()&lt;/span&gt;
+],
+}
+&lt;span class=&quot;copy-code-btn&quot;&gt;复制代码&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;执行 &lt;code&gt;npx webpack&lt;/code&gt;，我们的小程序此时应该能正常跑起来了。&lt;/p&gt;&lt;p&gt;查看 dist/app.js, dist/pages/index/index.js 等文件，它们的首行都添加了类似 &lt;code&gt;;require('./../../runtime');&lt;/code&gt; 的代码。&lt;/p&gt;&lt;p&gt;到目前为止，我们每修改一次代码，便执行一次 &lt;code&gt;npx webpack&lt;/code&gt;，这有些麻烦，能不能让 webpack 检测文件的变化，自动刷新呢？答案是有的。&lt;/p&gt;&lt;p&gt;webpack 可以以 run 或 watchRun 的方式运行&lt;/p&gt;&lt;pre&gt;&lt;code class=&quot;hljs js copyable&quot;&gt;
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; webpack = &lt;span class=&quot;hljs-function&quot;&gt;(&lt;span class=&quot;hljs-params&quot;&gt;options, callback&lt;/span&gt;) =&amp;gt;&lt;/span&gt; {
+&lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt; (options.watch === &lt;span class=&quot;hljs-literal&quot;&gt;true&lt;/span&gt; || (&lt;span class=&quot;hljs-built_in&quot;&gt;Array&lt;/span&gt;.isArray(options) &amp;amp;&amp;amp; options.some(&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-params&quot;&gt;o&lt;/span&gt; =&amp;gt;&lt;/span&gt; o.watch))) {
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; watchOptions = &lt;span class=&quot;hljs-built_in&quot;&gt;Array&lt;/span&gt;.isArray(options) ? options.map(&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-params&quot;&gt;o&lt;/span&gt; =&amp;gt;&lt;/span&gt; o.watchOptions || {}) : options.watchOptions || {}&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;span class=&amp;quot;hljs-keyword&amp;quot;&amp;gt;return&amp;lt;/span&amp;gt; compiler.watch(watchOptions, callback)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;}
+compiler.run(callback)
+&lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; compiler
+}
+&lt;span class=&quot;copy-code-btn&quot;&gt;复制代码&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;修改 plugin/MinaWebpackPlugin.js 文件&lt;/p&gt;&lt;pre&gt;&lt;code class=&quot;hljs js copyable&quot;&gt;&lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;MinaWebpackPlugin&lt;/span&gt; &lt;/span&gt;{
+&lt;span class=&quot;hljs-keyword&quot;&gt;constructor&lt;/span&gt;() {
+&lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.entries = []
+}&lt;/p&gt;
+&lt;p&gt;applyEntry(compiler, done) {
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; { context } = compiler.options
+&lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.entries
+.map(&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-params&quot;&gt;item&lt;/span&gt; =&amp;gt;&lt;/span&gt; replaceExt(item, &lt;span class=&quot;hljs-string&quot;&gt;'.js'&lt;/span&gt;))
+.map(&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-params&quot;&gt;item&lt;/span&gt; =&amp;gt;&lt;/span&gt; path.relative(context, item))
+.forEach(&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-params&quot;&gt;item&lt;/span&gt; =&amp;gt;&lt;/span&gt; itemToPlugin(context, &lt;span class=&quot;hljs-string&quot;&gt;'./'&lt;/span&gt; + item, replaceExt(item, &lt;span class=&quot;hljs-string&quot;&gt;''&lt;/span&gt;)).apply(compiler))
+&lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt; (done) {
+done()
+}
+}&lt;/p&gt;
+&lt;p&gt;apply(compiler) {
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; { context, entry } = compiler.options
+inflateEntries(&lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.entries, context, entry)&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;compiler.hooks.entryOption.tap(&amp;lt;span class=&amp;quot;hljs-string&amp;quot;&amp;gt;'MinaWebpackPlugin'&amp;lt;/span&amp;gt;, () =&amp;gt; {
+  &amp;lt;span class=&amp;quot;hljs-keyword&amp;quot;&amp;gt;this&amp;lt;/span&amp;gt;.applyEntry(compiler)
+  &amp;lt;span class=&amp;quot;hljs-keyword&amp;quot;&amp;gt;return&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;quot;hljs-literal&amp;quot;&amp;gt;true&amp;lt;/span&amp;gt;
+})
+
+compiler.hooks.watchRun.tap(&amp;lt;span class=&amp;quot;hljs-string&amp;quot;&amp;gt;'MinaWebpackPlugin'&amp;lt;/span&amp;gt;, (compiler, done) =&amp;gt; {
+  &amp;lt;span class=&amp;quot;hljs-keyword&amp;quot;&amp;gt;this&amp;lt;/span&amp;gt;.applyEntry(compiler, done)
+})
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;}
+}
+&lt;span class=&quot;copy-code-btn&quot;&gt;复制代码&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;执行 &lt;code&gt;npx webpack --watch --progress&lt;/code&gt; 即可开启 watch 模式，修改源代码并保存，将会重新生成 dist。&lt;/p&gt;&lt;h2 class=&quot;heading&quot;&gt;webpack 配置优化&lt;/h2&gt;&lt;p&gt;webpack 可以帮助我们 ES6 转 ES5，压缩和混淆代码，因此这些事情，不需要微信开发者工具帮我们做了。点击微信开发者工具右上角的&lt;strong&gt;详情&lt;/strong&gt;按钮，在项目设置中，反勾选 ES6 转 ES5，上传代码时自动压缩混淆等选项，如图所示：&lt;/p&gt;&lt;p&gt;修改 src/pages/index/index.js 文件，&lt;/p&gt;&lt;pre&gt;&lt;code class=&quot;hljs diff copyable&quot;&gt;&lt;span class=&quot;hljs-addition&quot;&gt;+ const util = require('../../utils/util.js');&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+ console.log(util.formatTime(new Date()));&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;const app = getApp();
+&lt;span class=&quot;copy-code-btn&quot;&gt;复制代码&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;执行 &lt;code&gt;npx webpack&lt;/code&gt;&lt;/p&gt;&lt;p&gt;可以看到，生成的 dist/pages/index/index.js 和 dist/pages/logs/logs.js 文件都有同样的代码&lt;/p&gt;&lt;pre&gt;&lt;code class=&quot;hljs js copyable&quot;&gt;😭&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;function&lt;/span&gt;(&lt;span class=&quot;hljs-params&quot;&gt;module, exports&lt;/span&gt;) &lt;/span&gt;{&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;var&lt;/span&gt; formatTime = &lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;formatTime&lt;/span&gt;(&lt;span class=&quot;hljs-params&quot;&gt;date&lt;/span&gt;) &lt;/span&gt;{
+&lt;span class=&quot;hljs-keyword&quot;&gt;var&lt;/span&gt; year = date.getFullYear()
+&lt;span class=&quot;hljs-keyword&quot;&gt;var&lt;/span&gt; month = date.getMonth() + &lt;span class=&quot;hljs-number&quot;&gt;1&lt;/span&gt;
+&lt;span class=&quot;hljs-keyword&quot;&gt;var&lt;/span&gt; day = date.getDate()
+&lt;span class=&quot;hljs-keyword&quot;&gt;var&lt;/span&gt; hour = date.getHours()
+&lt;span class=&quot;hljs-keyword&quot;&gt;var&lt;/span&gt; minute = date.getMinutes()
+&lt;span class=&quot;hljs-keyword&quot;&gt;var&lt;/span&gt; second = date.getSeconds()
+&lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; [year, month, day].map(formatNumber).join(&lt;span class=&quot;hljs-string&quot;&gt;'/'&lt;/span&gt;) + &lt;span class=&quot;hljs-string&quot;&gt;' '&lt;/span&gt; + [hour, minute, second].map(formatNumber).join(&lt;span class=&quot;hljs-string&quot;&gt;':'&lt;/span&gt;)
+}&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;var&lt;/span&gt; formatNumber = &lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;formatNumber&lt;/span&gt;(&lt;span class=&quot;hljs-params&quot;&gt;n&lt;/span&gt;) &lt;/span&gt;{
+n = n.toString()
+&lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; n[&lt;span class=&quot;hljs-number&quot;&gt;1&lt;/span&gt;] ? n : &lt;span class=&quot;hljs-string&quot;&gt;'0'&lt;/span&gt; + n
+}&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;hljs-built_in&quot;&gt;module&lt;/span&gt;.exports = {
+&lt;span class=&quot;hljs-attr&quot;&gt;formatTime&lt;/span&gt;: formatTime,
+}
+})
+&lt;span class=&quot;copy-code-btn&quot;&gt;复制代码&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;修改 webpack.config.js 文件&lt;/p&gt;&lt;pre&gt;&lt;code class=&quot;hljs diff copyable&quot;&gt;  optimization: {
+&lt;span class=&quot;hljs-addition&quot;&gt;+   splitChunks: {&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+     chunks: 'all',&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+     name: 'common',&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+     minChunks: 2,&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+     minSize: 0,&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+   },&lt;/span&gt;
+runtimeChunk: {
+name: 'runtime',
+},
+},
+&lt;span class=&quot;copy-code-btn&quot;&gt;复制代码&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;执行 &lt;code&gt;npx webpack&lt;/code&gt;&lt;/p&gt;&lt;p&gt;可以看到 dist 目录下生成了一个 common.js 文件，里面有 util.js 的代码，而 dist/pages/index/index.js 和 dist/pages/logs/logs.js 的首行代码则导入了 common 文件：&lt;code&gt;;require('./../../runtime');require('./../../common');&lt;/code&gt;&lt;/p&gt;&lt;p&gt;目前，我们通过 &lt;code&gt;npx webpack&lt;/code&gt; 生成的代码都是未经过压缩和优化的，稍不注意，就会超过微信 2M 大小的限制。&lt;/p&gt;&lt;p&gt;请根据文档指引进行配置，这里不作展开。&lt;/p&gt;&lt;p&gt;下面我们执行 &lt;code&gt;npx webpack --mode=production&lt;/code&gt;&lt;/p&gt;&lt;p&gt;可以看到生成的 app.js 文件大小还不到 1KB&lt;/p&gt;&lt;p&gt;下面，我们引入个大文件&lt;/p&gt;&lt;p&gt;修改 src/app.js 文件，重新引入 lodash&lt;/p&gt;&lt;pre&gt;&lt;code class=&quot;hljs diff copyable&quot;&gt;// app.js
+&lt;span class=&quot;hljs-addition&quot;&gt;+ import { camelCase } from 'lodash';&lt;/span&gt;
+App({
+onLaunch: function () {
+&lt;span class=&quot;hljs-addition&quot;&gt;+    console.log('-----------------------------------------------x');&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+    console.log(camelCase('OnLaunch'));&lt;/span&gt;
+}
+})
+&lt;span class=&quot;copy-code-btn&quot;&gt;复制代码&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;执行 &lt;code&gt;npx webpack --mode=production&lt;/code&gt;，可以看到 app.js 文件有将近 70 KB 那么大，为了使用 lodash，这代价也太大了。不过幸好有&lt;a href=&quot;https://link.juejin.im?target=https%3A%2F%2Fzhuanlan.zhihu.com%2Fp%2F36280323&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;优化方法&lt;/a&gt;：&lt;/p&gt;&lt;p&gt;首先安装以下两个依赖&lt;/p&gt;&lt;pre&gt;&lt;code class=&quot;hljs bash copyable&quot;&gt;npm i --save-dev babel-plugin-lodash lodash-webpack-plugin
+&lt;span class=&quot;copy-code-btn&quot;&gt;复制代码&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;修改 webpack.config.js 文件&lt;/p&gt;&lt;pre&gt;&lt;code class=&quot;hljs diff copyable&quot;&gt;  const MinaRuntimePlugin = require('./plugin/MinaRuntimePlugin');
+&lt;span class=&quot;hljs-addition&quot;&gt;+ const LodashWebpackPlugin = require('lodash-webpack-plugin');&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;new MinaRuntimePlugin(),
+&lt;span class=&quot;hljs-addition&quot;&gt;+ new LodashWebpackPlugin()&lt;/span&gt;
+&lt;span class=&quot;copy-code-btn&quot;&gt;复制代码&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;修改 .babelrc 文件&lt;/p&gt;&lt;pre&gt;&lt;code class=&quot;hljs diff copyable&quot;&gt;{
+&amp;quot;presets&amp;quot;: [&amp;quot;@babel/env&amp;quot;],
+&lt;span class=&quot;hljs-addition&quot;&gt;+ &amp;quot;plugins&amp;quot;: [&amp;quot;lodash&amp;quot;]&lt;/span&gt;
+}
+&lt;span class=&quot;copy-code-btn&quot;&gt;复制代码&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;再次执行 &lt;code&gt;npx webpack --mode=production&lt;/code&gt;，可以看到 app.js 只有 4K 不到的大小了，因此我们可以愉快地使用 lodash 了。&lt;/p&gt;&lt;p&gt;这里的环境是指小程序的服务器地址，我们的小程序，在开发时，在测试时，在发布时，所需要访问的服务器地址是不一样的。我们通常区分开发环境、测试环境、预发布环境、生产环境等。&lt;/p&gt;&lt;p&gt;现在我们来谈谈 mode，它通常被认为和多环境配置有关。&lt;/p&gt;&lt;blockquote&gt;&lt;p&gt;我们在 &lt;strong&gt;tree shaking&lt;/strong&gt; 一节中已经对 mode 有所认识。&lt;/p&gt;&lt;/blockquote&gt;&lt;p&gt;mode 有三个可能的值，分别是 production, development, none，小程序不能用 development，所以只有 production 和 none 这两个值。&lt;/p&gt;&lt;p&gt;我们看到 production 和 development 这样的单词时，很容易将它们和生产环境、开发环境关联起来，这很容易造成误解。&lt;/p&gt;&lt;p&gt;我们除了需要区分环境，实际上还需要区分构建类型(release, debug)。&lt;/p&gt;&lt;p&gt;我们应该把 mode 看作是构建类型的配置，而不是环境配置。&lt;/p&gt;&lt;p&gt;构建类型和环境可以相互组合，譬如开发环境的 debug 包，生产环境的 debug 包，生产环境的 release 包等等。&lt;/p&gt;&lt;p&gt;修改 webpack.config.js 文件&lt;/p&gt;&lt;pre&gt;&lt;code class=&quot;hljs diff copyable&quot;&gt;&lt;span class=&quot;hljs-addition&quot;&gt;+ const webpack = require('webpack');&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+ const debuggable = process.env.BUILD_TYPE !== 'release'&lt;/span&gt;
+module.exports = {
+plugins: [
+&lt;span class=&quot;hljs-addition&quot;&gt;+     new webpack.EnvironmentPlugin({&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+       NODE_ENV: JSON.stringify(process.env.NODE_ENV) || 'development',&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+       BUILD_TYPE: JSON.stringify(process.env.BUILD_TYPE) || 'debug',&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+     }),&lt;/span&gt;
+],
+&lt;span class=&quot;hljs-deletion&quot;&gt;-   mode: 'none',&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+   mode: debuggable ? 'none' : 'production',&lt;/span&gt;
+}
+&lt;span class=&quot;copy-code-btn&quot;&gt;复制代码&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;默认情况下，webpack 会帮我们把 &lt;code&gt;process.env.NODE_ENV&lt;/code&gt; 的值设置成 mode 的值&lt;/p&gt;&lt;p&gt;我们在代码中，可以通过以下方式读取这些环境变量&lt;/p&gt;&lt;pre&gt;&lt;code class=&quot;hljs js copyable&quot;&gt;&lt;span class=&quot;hljs-built_in&quot;&gt;console&lt;/span&gt;.log(&lt;span class=&quot;hljs-string&quot;&gt;&lt;code&gt;环境：&amp;lt;span class=&amp;quot;hljs-subst&amp;quot;&amp;gt;${process.env.NODE_ENV}&amp;lt;/span&amp;gt; 构建类型：&amp;lt;span class=&amp;quot;hljs-subst&amp;quot;&amp;gt;${process.env.BUILD_TYPE}&amp;lt;/span&amp;gt;&lt;/code&gt;&lt;/span&gt;)
+&lt;span class=&quot;copy-code-btn&quot;&gt;复制代码&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;我们如何注入 &lt;code&gt;NODE_ENV&lt;/code&gt; 这些变量的值呢？我们借助 npm scripts 来实现。webpack 官方文档也有关于 npm scripts 的介绍，建议&lt;a href=&quot;https://link.juejin.im?target=https%3A%2F%2Fwebpack.docschina.org%2Fguides%2Fgetting-started%2F%23npm-scripts&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;读一读&lt;/a&gt;。&lt;/p&gt;&lt;p&gt;首先安装&lt;/p&gt;&lt;pre&gt;&lt;code class=&quot;hljs bash copyable&quot;&gt;npm i --save-dev cross-env
+&lt;span class=&quot;copy-code-btn&quot;&gt;复制代码&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;修改 package.json 文件，添加 scripts&lt;/p&gt;&lt;pre&gt;&lt;code class=&quot;hljs json copyable&quot;&gt;{
+&lt;span class=&quot;hljs-attr&quot;&gt;&amp;quot;scripts&amp;quot;&lt;/span&gt;: {
+&lt;span class=&quot;hljs-attr&quot;&gt;&amp;quot;start&amp;quot;&lt;/span&gt;: &lt;span class=&quot;hljs-string&quot;&gt;&amp;quot;webpack --watch --progress&amp;quot;&lt;/span&gt;,
+&lt;span class=&quot;hljs-attr&quot;&gt;&amp;quot;build&amp;quot;&lt;/span&gt;: &lt;span class=&quot;hljs-string&quot;&gt;&amp;quot;cross-env NODE_ENV=production BUILD_TYPE=release webpack&amp;quot;&lt;/span&gt;
+}
+}
+&lt;span class=&quot;copy-code-btn&quot;&gt;复制代码&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;现在，可以使用 &lt;code&gt;npm run build&lt;/code&gt; 命令，来替代我们之前使用的 &lt;code&gt;npx webpack --mode=production&lt;/code&gt; 命令。&lt;/p&gt;&lt;p&gt;使用 &lt;code&gt;npm start&lt;/code&gt; 来替代我们之前使用的 &lt;code&gt;npx webpack --watch --progress&lt;/code&gt; 命令。&lt;/p&gt;&lt;p&gt;修改 webpack.config.js 文件&lt;/p&gt;&lt;pre&gt;&lt;code class=&quot;hljs diff copyable&quot;&gt;  mode: debuggable ? 'none' : 'production',
+&lt;span class=&quot;hljs-addition&quot;&gt;+ devtool: debuggable ? 'inline-source-map' : 'source-map',&lt;/span&gt;
+&lt;span class=&quot;copy-code-btn&quot;&gt;复制代码&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;h2 class=&quot;heading&quot;&gt;支持 Sass&lt;/h2&gt;&lt;p&gt;安装相关依赖&lt;/p&gt;&lt;pre&gt;&lt;code class=&quot;hljs bash copyable&quot;&gt;npm i --save-dev sass-loader node-sass file-loader
+&lt;span class=&quot;copy-code-btn&quot;&gt;复制代码&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;修改 webpack.config.js 文件&lt;/p&gt;&lt;pre&gt;&lt;code class=&quot;hljs diff copyable&quot;&gt;module.exports = {
+module: {
+rules: [
+&lt;span class=&quot;hljs-addition&quot;&gt;+       {&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+         test: /.(scss)$/,&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+         include: /src/,&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+         use: [&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+           {&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+             loader: 'file-loader',&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+             options: {&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+               useRelativePath: true,&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+               name: '[path][name].wxss',&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+               context: resolve('src'),&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+             },&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+           },&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+           {&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+             loader: 'sass-loader',&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+             options: {&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+               includePaths: [resolve('src', 'styles'), resolve('src')],&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+             },&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+           },&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+         ],&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+       },&lt;/span&gt;
+],
+},
+plugins: [
+new CopyWebpackPlugin([
+{
+from: '&lt;strong&gt;/*',
+to: './',
+&lt;span class=&quot;hljs-deletion&quot;&gt;-       ignore: ['&lt;/strong&gt;/&lt;em&gt;.js', ],&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+       ignore: ['**/&lt;/em&gt;.js', '**/*.scss'],&lt;/span&gt;
+},
+]),
+new MinaWebpackPlugin({
+&lt;span class=&quot;hljs-addition&quot;&gt;+      scriptExtensions: ['.js'],&lt;/span&gt;
+&lt;span class=&quot;hljs-addition&quot;&gt;+      assetExtensions: ['.scss'],&lt;/span&gt;
+}),
+],
+}
+&lt;span class=&quot;copy-code-btn&quot;&gt;复制代码&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;我们在分析 webpack 工作流程时，曾经提到过，loader 主要工作在 module 构建阶段。也就是说，我们依然需要添加 .scss 文件作为 entry，让 loader 能有机会去解析它，并输出最终结果。&lt;/p&gt;&lt;p&gt;每一个 entry 都会对应一个 chunk, 每一个 entry chunk 都会输出一个文件。因为 file-loader 已经帮助我们输出最终我们想要的结果了，所以我们需要阻止这一行为。&lt;/p&gt;&lt;p&gt;修改 plugin/MinaWebpackPlugin.js 文件，以下是修改后的样子&lt;/p&gt;&lt;pre&gt;&lt;code class=&quot;hljs js copyable&quot;&gt;
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; SingleEntryPlugin = &lt;span class=&quot;hljs-built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;hljs-string&quot;&gt;'webpack/lib/SingleEntryPlugin'&lt;/span&gt;)
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; MultiEntryPlugin = &lt;span class=&quot;hljs-built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;hljs-string&quot;&gt;'webpack/lib/MultiEntryPlugin'&lt;/span&gt;)
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; path = &lt;span class=&quot;hljs-built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;hljs-string&quot;&gt;'path'&lt;/span&gt;)
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; fs = &lt;span class=&quot;hljs-built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;hljs-string&quot;&gt;'fs'&lt;/span&gt;)
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; replaceExt = &lt;span class=&quot;hljs-built_in&quot;&gt;require&lt;/span&gt;(&lt;span class=&quot;hljs-string&quot;&gt;'replace-ext'&lt;/span&gt;)&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; assetsChunkName = &lt;span class=&quot;hljs-string&quot;&gt;'&lt;strong&gt;assets_chunk_name&lt;/strong&gt;'&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;itemToPlugin&lt;/span&gt;(&lt;span class=&quot;hljs-params&quot;&gt;context, item, name&lt;/span&gt;) &lt;/span&gt;{
+&lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt; (&lt;span class=&quot;hljs-built_in&quot;&gt;Array&lt;/span&gt;.isArray(item)) {
+&lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;new&lt;/span&gt; MultiEntryPlugin(context, item, name)
+}
+&lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;new&lt;/span&gt; SingleEntryPlugin(context, item, name)
+}&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;_inflateEntries&lt;/span&gt;(&lt;span class=&quot;hljs-params&quot;&gt;entries = [], dirname, entry&lt;/span&gt;) &lt;/span&gt;{
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; configFile = replaceExt(entry, &lt;span class=&quot;hljs-string&quot;&gt;'.json'&lt;/span&gt;)
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; content = fs.readFileSync(configFile, &lt;span class=&quot;hljs-string&quot;&gt;'utf8'&lt;/span&gt;)
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; config = &lt;span class=&quot;hljs-built_in&quot;&gt;JSON&lt;/span&gt;.parse(content)&lt;/p&gt;
+&lt;p&gt;;[&lt;span class=&quot;hljs-string&quot;&gt;'pages'&lt;/span&gt;, &lt;span class=&quot;hljs-string&quot;&gt;'usingComponents'&lt;/span&gt;].forEach(&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-params&quot;&gt;key&lt;/span&gt; =&amp;gt;&lt;/span&gt; {
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; items = config[key]
+&lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt; (&lt;span class=&quot;hljs-keyword&quot;&gt;typeof&lt;/span&gt; items === &lt;span class=&quot;hljs-string&quot;&gt;'object'&lt;/span&gt;) {
+&lt;span class=&quot;hljs-built_in&quot;&gt;Object&lt;/span&gt;.values(items).forEach(&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-params&quot;&gt;item&lt;/span&gt; =&amp;gt;&lt;/span&gt; inflateEntries(entries, dirname, item))
+}
+})
+}&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;inflateEntries&lt;/span&gt;(&lt;span class=&quot;hljs-params&quot;&gt;entries, dirname, entry&lt;/span&gt;) &lt;/span&gt;{
+entry = path.resolve(dirname, entry)
+&lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt; (entry != &lt;span class=&quot;hljs-literal&quot;&gt;null&lt;/span&gt; &amp;amp;&amp;amp; !entries.includes(entry)) {
+entries.push(entry)
+_inflateEntries(entries, path.dirname(entry), entry)
+}
+}&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;first&lt;/span&gt;(&lt;span class=&quot;hljs-params&quot;&gt;entry, extensions&lt;/span&gt;) &lt;/span&gt;{
+&lt;span class=&quot;hljs-keyword&quot;&gt;for&lt;/span&gt; (&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; ext &lt;span class=&quot;hljs-keyword&quot;&gt;of&lt;/span&gt; extensions) {
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; file = replaceExt(entry, ext)
+&lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt; (fs.existsSync(file)) {
+&lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; file
+}
+}
+&lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hljs-literal&quot;&gt;null&lt;/span&gt;
+}&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;all&lt;/span&gt;(&lt;span class=&quot;hljs-params&quot;&gt;entry, extensions&lt;/span&gt;) &lt;/span&gt;{
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; items = []
+&lt;span class=&quot;hljs-keyword&quot;&gt;for&lt;/span&gt; (&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; ext &lt;span class=&quot;hljs-keyword&quot;&gt;of&lt;/span&gt; extensions) {
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; file = replaceExt(entry, ext)
+&lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt; (fs.existsSync(file)) {
+items.push(file)
+}
+}
+&lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; items
+}&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;MinaWebpackPlugin&lt;/span&gt; &lt;/span&gt;{
+&lt;span class=&quot;hljs-keyword&quot;&gt;constructor&lt;/span&gt;(options = {}) {
+&lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.scriptExtensions = options.scriptExtensions || [&lt;span class=&quot;hljs-string&quot;&gt;'.ts'&lt;/span&gt;, &lt;span class=&quot;hljs-string&quot;&gt;'.js'&lt;/span&gt;]
+&lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.assetExtensions = options.assetExtensions || []
+&lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.entries = []
+}&lt;/p&gt;
+&lt;p&gt;applyEntry(compiler, done) {
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; { context } = compiler.options&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;span class=&amp;quot;hljs-keyword&amp;quot;&amp;gt;this&amp;lt;/span&amp;gt;.entries
+  .map(&amp;lt;span class=&amp;quot;hljs-function&amp;quot;&amp;gt;&amp;lt;span class=&amp;quot;hljs-params&amp;quot;&amp;gt;item&amp;lt;/span&amp;gt; =&amp;gt;&amp;lt;/span&amp;gt; first(item, &amp;lt;span class=&amp;quot;hljs-keyword&amp;quot;&amp;gt;this&amp;lt;/span&amp;gt;.scriptExtensions))
+  .map(&amp;lt;span class=&amp;quot;hljs-function&amp;quot;&amp;gt;&amp;lt;span class=&amp;quot;hljs-params&amp;quot;&amp;gt;item&amp;lt;/span&amp;gt; =&amp;gt;&amp;lt;/span&amp;gt; path.relative(context, item))
+  .forEach(&amp;lt;span class=&amp;quot;hljs-function&amp;quot;&amp;gt;&amp;lt;span class=&amp;quot;hljs-params&amp;quot;&amp;gt;item&amp;lt;/span&amp;gt; =&amp;gt;&amp;lt;/span&amp;gt; itemToPlugin(context, &amp;lt;span class=&amp;quot;hljs-string&amp;quot;&amp;gt;'./'&amp;lt;/span&amp;gt; + item, replaceExt(item, &amp;lt;span class=&amp;quot;hljs-string&amp;quot;&amp;gt;''&amp;lt;/span&amp;gt;)).apply(compiler))
+
+&amp;lt;span class=&amp;quot;hljs-keyword&amp;quot;&amp;gt;const&amp;lt;/span&amp;gt; assets = &amp;lt;span class=&amp;quot;hljs-keyword&amp;quot;&amp;gt;this&amp;lt;/span&amp;gt;.entries
+  .reduce(&amp;lt;span class=&amp;quot;hljs-function&amp;quot;&amp;gt;(&amp;lt;span class=&amp;quot;hljs-params&amp;quot;&amp;gt;items, item&amp;lt;/span&amp;gt;) =&amp;gt;&amp;lt;/span&amp;gt; [...items, ...all(item, &amp;lt;span class=&amp;quot;hljs-keyword&amp;quot;&amp;gt;this&amp;lt;/span&amp;gt;.assetExtensions)], [])
+  .map(&amp;lt;span class=&amp;quot;hljs-function&amp;quot;&amp;gt;&amp;lt;span class=&amp;quot;hljs-params&amp;quot;&amp;gt;item&amp;lt;/span&amp;gt; =&amp;gt;&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;quot;hljs-string&amp;quot;&amp;gt;'./'&amp;lt;/span&amp;gt; + path.relative(context, item))
+itemToPlugin(context, assets, assetsChunkName).apply(compiler)
+
+&amp;lt;span class=&amp;quot;hljs-keyword&amp;quot;&amp;gt;if&amp;lt;/span&amp;gt; (done) {
+  done()
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;}&lt;/p&gt;
+&lt;p&gt;apply(compiler) {
+&lt;span class=&quot;hljs-keyword&quot;&gt;const&lt;/span&gt; { context, entry } = compiler.options
+inflateEntries(&lt;span class=&quot;hljs-keyword&quot;&gt;this&lt;/span&gt;.entries, context, entry)&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;compiler.hooks.entryOption.tap(&amp;lt;span class=&amp;quot;hljs-string&amp;quot;&amp;gt;'MinaWebpackPlugin'&amp;lt;/span&amp;gt;, () =&amp;gt; {
+  &amp;lt;span class=&amp;quot;hljs-keyword&amp;quot;&amp;gt;this&amp;lt;/span&amp;gt;.applyEntry(compiler)
+  &amp;lt;span class=&amp;quot;hljs-keyword&amp;quot;&amp;gt;return&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;quot;hljs-literal&amp;quot;&amp;gt;true&amp;lt;/span&amp;gt;
+})
+
+compiler.hooks.watchRun.tap(&amp;lt;span class=&amp;quot;hljs-string&amp;quot;&amp;gt;'MinaWebpackPlugin'&amp;lt;/span&amp;gt;, (compiler, done) =&amp;gt; {
+  &amp;lt;span class=&amp;quot;hljs-keyword&amp;quot;&amp;gt;this&amp;lt;/span&amp;gt;.applyEntry(compiler, done)
+})
+
+compiler.hooks.compilation.tap(&amp;lt;span class=&amp;quot;hljs-string&amp;quot;&amp;gt;'MinaWebpackPlugin'&amp;lt;/span&amp;gt;, compilation =&amp;gt; {
+
+  compilation.hooks.beforeChunkAssets.tap(&amp;lt;span class=&amp;quot;hljs-string&amp;quot;&amp;gt;'MinaWebpackPlugin'&amp;lt;/span&amp;gt;, () =&amp;gt; {
+    &amp;lt;span class=&amp;quot;hljs-keyword&amp;quot;&amp;gt;const&amp;lt;/span&amp;gt; assetsChunkIndex = compilation.chunks.findIndex(&amp;lt;span class=&amp;quot;hljs-function&amp;quot;&amp;gt;(&amp;lt;span class=&amp;quot;hljs-params&amp;quot;&amp;gt;{ name }&amp;lt;/span&amp;gt;) =&amp;gt;&amp;lt;/span&amp;gt; name === assetsChunkName)
+    &amp;lt;span class=&amp;quot;hljs-keyword&amp;quot;&amp;gt;if&amp;lt;/span&amp;gt; (assetsChunkIndex &amp;gt; &amp;lt;span class=&amp;quot;hljs-number&amp;quot;&amp;gt;-1&amp;lt;/span&amp;gt;) {
+
+      compilation.chunks.splice(assetsChunkIndex, &amp;lt;span class=&amp;quot;hljs-number&amp;quot;&amp;gt;1&amp;lt;/span&amp;gt;)
+    }
+  })
+})
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;}
+}&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;hljs-built_in&quot;&gt;module&lt;/span&gt;.exports = MinaWebpackPlugin
+&lt;span class=&quot;copy-code-btn&quot;&gt;复制代码&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;h2 class=&quot;heading&quot;&gt;感谢以下项目以及文章&lt;/h2&gt;</script>``</p></div> <div class="page-nav"><div class="pre"><!----></div> <div class="next"><!----></div></div> <div class="vcomment content"><div id="vcomments"></div></div></div> <!----></div></div></div><div class="global-ui"><!----></div></div>
+    <script src="/my-blog/assets/js/app.b014c8cf.js" defer></script><script src="/my-blog/assets/js/6.af0476b8.js" defer></script><script src="/my-blog/assets/js/33.f4f367b2.js" defer></script>
+  </body>
+</html>
