@@ -9,10 +9,11 @@
         <item-list v-if="isBlog"></item-list>
       </ClientOnly>
       <Content :class="{p0: isBlog}"/>
-      <page-nav :type="type" v-if="isItem"></page-nav>
       <div class="vcomment content" v-if="isItem || isAbout">
-        <div id="vcomments"></div>
+        <Utterances />
+        <!-- <div id="vcomments"></div> -->
       </div>
+      <page-nav :type="type" v-if="isItem"></page-nav>
     </div>
     <el-button
       v-if="isResume"
@@ -24,10 +25,10 @@
     </el-button>
   </div>
 </template>
-
 <script>
 import html2canvas from 'html2canvas'
 import Home from './Home.vue'
+import Utterances from './Utterances.vue'
 import ItemList from './item-list.vue'
 import pageNav from '../../components/page-nav.vue'
 import 'prismjs/themes/prism-tomorrow.css'
@@ -58,17 +59,17 @@ export default {
       return paths[paths.length - 2]
     }
   },
-  watch: {
-    '$route' (to, from) {
-        if(to.path !==  from.path){
-          this.isItem && this.$router.go(0)
-        }else{
-           // nothing
-       }
-     }
-  },
+  // watch: {
+  //   '$route' (to, from) {
+  //       if(to.path !==  from.path){
+  //         this.isItem && this.$router.go(0)
+  //       }else{
+  //          // nothing
+  //      }
+  //    }
+  // },
   mounted () {
-    this.initComment()
+    // this.initComment()
   },
   methods: {
     initComment () {
@@ -96,7 +97,8 @@ export default {
   components: {
     Home,
     ItemList,
-    pageNav
+    pageNav,
+    Utterances
   }
 }
 </script>

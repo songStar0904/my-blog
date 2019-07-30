@@ -93,6 +93,11 @@ export default {
       JSON.stringify(this.$page.frontmatter.items)
     );
   },
+  watch: {
+    currentTag(val) {
+      this.currNum = 1
+    }
+  },
   computed: {
     isMobile() {
       return localStorage.getItem("isMobile") == "true";

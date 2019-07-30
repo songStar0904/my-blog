@@ -10,5 +10,8 @@ const summary = [{
   }, {
     title: '类',
     path: 'classes.html'
+  }, {
+    title: '函数',
+    path: 'functions.html'
   }]
 export default summary

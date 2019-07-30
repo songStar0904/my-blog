@@ -2,6 +2,48 @@
 component: item-list
 comments: true
 items:
+  - title: 如何用小程序实现类原生APP下一条无限刷体验
+    description: 详细记录了下一条无限刷效果的实现原理，以及细节和体验优化，并将相关代码抽象成一个微信小程序代码片段，有需要的同学可查看demo源码。
+    link: miniapp-infiniteRefresh
+    keywords: 微信小程序
+    date: 2018-7-30
+    img: /my-blog/infinite-refresh.jpg
+  - title: 如何写好一个vue组件【理论篇】
+    description: 一个适用性良好的组件，一种是可配置项很多，另一种就是容易覆写，从而扩展功能
+    link: vue-component
+    keywords: VueJS
+    date: 2018-5-24
+    img: https://cn.vuejs.org/images/data.png
+  - title: 小程序也能国际化（i18n）
+    description: 随着小程序的迅速发展，很多小程序走向国际化了，那么有没有一种工具能够帮我们快速的维护国际化呢？当然是有点，这正是我们今天所有讨论的主题。
+    link: miniapp-i18n
+    keywords: 微信小程序
+    date: 2018-4-25
+    img: /my-blog/miniapp-i18n.jpg
+  - title: 防抖(Debounce) & 节流(Throttle)
+    description: 浏览器中某些计算和处理非常昂贵。比如当鼠标响应resize, touchmove,scroll等操作时，绑定的函数触发的频率会很高，如果该函数稍微复杂一些，响应速度会远远跟不上触发频率，便会出现卡顿，延迟，假死等现象。
+    link: debounce&throttle
+    keywords: Javascript
+    date: 2019-4-18
+    img: https://user-gold-cdn.xitu.io/2019/4/14/16a178f188eabe4e?imageView2/1/w/1304/h/734/q/85/format/webp/interlace/1
+  - title: 「极点日历」小程序插件
+    description: 今天为大家推荐的「极点日历」小程序插件，支持 1900 年 1 月 ~ 2099 年 12 月这两百年间的公历和农历显示，适用范围很广，并且可以进行个性化定制。
+    link: miniapp-calendar
+    keywords: 微信小程序
+    date: 2019-4-15
+    img: https://user-gold-cdn.xitu.io/2019/1/7/168277669fe93272?imageView2/0/w/1280/h/960/format/webp/ignore-error/1
+  - title: Fiddler 抓包工具总结
+    description: Fiddler是一个蛮好用的抓包工具，可以将网络传输发送与接受的数据包进行截获、重发、编辑、转存等操作。也可以用来检测网络安全。
+    link: fiddler
+    keywords: 开发工具
+    date: 2019-3-6
+    img: /my-blog/fiddler/fiddler.jpg
+  - title: 嘿！朋友，你的面试归档掉了
+    description: 内容取自各种群里面试者分享的题目，我只是做了一个归档方便大家记笔记。持续更新中。。。
+    link: mianjing-2
+    keywords: 面试经验
+    date: 2019-3-2
+    img: /my-blog/mianjing-2.jpg
   - title: 微信如何打通会员卡
     description: 将商家与微信的会员卡打通
     link: wechat-card

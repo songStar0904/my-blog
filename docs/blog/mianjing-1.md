@@ -18,7 +18,7 @@ stats: paragraph=174 sentences=60, words=624
 
 ## 百度 WEB前端工程师 连续五面 全程3约个小时
 
-### 一面 
+### 一面
 
 先完成笔试题
 
