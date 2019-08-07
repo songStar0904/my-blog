@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[9],{423:function(e,n,t){"use strict";t.r(n);var l=t(24),s=Object(l.a)({},function(){var e=this.$createElement;return(this._self._c||e)("div",[this._v("Hello VuePress Components")])},[],!1,null,null,null);s.options.__file="my-hello.vue";n.default=s.exports}}]);
