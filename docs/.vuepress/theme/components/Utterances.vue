@@ -12,7 +12,7 @@ export default {
         utterances.type = 'text/javascript'
         utterances.async = true
         utterances.setAttribute('issue-term', 'title')
-        utterances.setAttribute('theme','github-light')
+        utterances.setAttribute('theme','dark-blue')
         utterances.setAttribute('repo',`songstar0904/my-blog`)
         utterances.crossorigin = 'anonymous'
         utterances.src = 'https://utteranc.es/client.js'

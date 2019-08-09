@@ -12,4 +12,3 @@ nav:
   - text: 关于我
     link: /about/
 ---
-

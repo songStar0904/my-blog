@@ -2,6 +2,12 @@
 component: item-list
 comments: true
 items:
+  - title: 【译】 JavaScript Clean Code - Best Practices
+    description: Robert C. Martin:即使是糟糕的代码也能运作，但如果代码不干净，它可能会使开发组织陷入困境。
+    link: js-cleanCode
+    keywords: JavaScript
+    date: 2018-8-2
+    img: https://devinduct.com/Uploads/PostImages/7543a653-13a0-4265-ac46-e7d61075cdef.png
   - title: 如何用小程序实现类原生APP下一条无限刷体验
     description: 详细记录了下一条无限刷效果的实现原理，以及细节和体验优化，并将相关代码抽象成一个微信小程序代码片段，有需要的同学可查看demo源码。
     link: miniapp-infiniteRefresh
