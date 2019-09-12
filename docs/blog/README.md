@@ -2,6 +2,18 @@
 component: item-list
 comments: true
 items:
+  - title: vue-cli 首屏性能优化
+    description: 我是如何把首屏1M+减到100K+的。
+    link: vue-optimize
+    keywords: VueJS
+    date: 2018-9-11
+    img: https://pic3.zhimg.com/v2-2d13619970c14eb08ec191b427655a08_1200x500.jpg
+  - title: jQuery vs Vue
+    description: 部门在框架选型上，我做了初步的框架分析。
+    link: jqvsvue
+    keywords: VueJS
+    date: 2018-8-23
+    img: https://qqadapt.qpic.cn/txdocpic/0/0fa66548776aef37366ed325eabc8646/0
   - title: 【译】 JavaScript Clean Code - Best Practices
     description: Robert C. Martin:即使是糟糕的代码也能运作，但如果代码不干净，它可能会使开发组织陷入困境。
     link: js-cleanCode
