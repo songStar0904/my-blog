@@ -2,6 +2,12 @@
 component: item-list
 comments: true
 items:
+  - title: 关于兼容ie9的跨域问题
+    description: IE9报错 Unhandled promise rejectionError 拒绝访问。
+    link: cros-for-ie9
+    keywords: web开发
+    date: 2018-9-25
+    img: /my-blog/cros-for-ie9/error.jpg
   - title: vue-cli 首屏性能优化
     description: 我是如何把首屏1M+减到100K+的。
     link: vue-optimize
