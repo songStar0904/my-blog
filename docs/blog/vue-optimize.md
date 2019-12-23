@@ -5,3 +5,5 @@
 [Webpack 大法之 Code Splitting](https://zhuanlan.zhihu.com/p/26710831)
 
 [Webpack Freestyle 之 Long Term Cache](https://zhuanlan.zhihu.com/p/27710902)
+
+[Remove unused CSS with PurgeCSS](https://vuedose.tips/tips/remove-unused-css-with-purge-css/)
