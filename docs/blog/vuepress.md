@@ -163,6 +163,7 @@ export default ({
 ```
 
 这样我们在 Markdown 文件编写 Vue 代码的时候就不需要注册注册这些组件，边可以直接在 Markdown 中使用了。
+
 ::: warning 重要！
 在vuepress版本高的时候出现了一个bug，在Markdown编写Vue代码的时候浏览器会报错
 ![](/my-blog/vuepress-error.jpg)

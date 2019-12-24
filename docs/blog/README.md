@@ -2,47 +2,53 @@
 component: item-list
 comments: true
 items:
+  - title: 谈谈Keep-alive
+    description: 带你了解不为人知的Keep-alive。
+    link: keep-alive
+    keywords: VueJS
+    date: 2019-12-23
+    img: /my-blog/keep-alive/keep-alive.jpg
   - title: 关于兼容ie9的跨域问题
     description: IE9报错 Unhandled promise rejectionError 拒绝访问。
     link: cros-for-ie9
     keywords: web开发
-    date: 2018-9-25
+    date: 2019-9-25
     img: /my-blog/cros-for-ie9/error.jpg
   - title: vue-cli 首屏性能优化
     description: 我是如何把首屏1M+减到100K+的。
     link: vue-optimize
     keywords: VueJS
-    date: 2018-9-11
+    date: 2019-9-11
     img: https://pic3.zhimg.com/v2-2d13619970c14eb08ec191b427655a08_1200x500.jpg
   - title: jQuery vs Vue
     description: 部门在框架选型上，我做了初步的框架分析。
     link: jqvsvue
     keywords: VueJS
-    date: 2018-8-23
+    date: 2019-8-23
     img: https://qqadapt.qpic.cn/txdocpic/0/0fa66548776aef37366ed325eabc8646/0
   - title: 【译】 JavaScript Clean Code - Best Practices
     description: Robert C. Martin:即使是糟糕的代码也能运作，但如果代码不干净，它可能会使开发组织陷入困境。
     link: js-cleanCode
     keywords: JavaScript
-    date: 2018-8-2
+    date: 2019-8-2
     img: https://devinduct.com/Uploads/PostImages/7543a653-13a0-4265-ac46-e7d61075cdef.png
   - title: 如何用小程序实现类原生APP下一条无限刷体验
     description: 详细记录了下一条无限刷效果的实现原理，以及细节和体验优化，并将相关代码抽象成一个微信小程序代码片段，有需要的同学可查看demo源码。
     link: miniapp-infiniteRefresh
     keywords: 微信小程序
-    date: 2018-7-30
+    date: 2019-7-30
     img: /my-blog/infinite-refresh.jpg
   - title: 如何写好一个vue组件【理论篇】
     description: 一个适用性良好的组件，一种是可配置项很多，另一种就是容易覆写，从而扩展功能
     link: vue-component
     keywords: VueJS
-    date: 2018-5-24
+    date: 2019-5-24
     img: https://cn.vuejs.org/images/data.png
   - title: 小程序也能国际化（i18n）
     description: 随着小程序的迅速发展，很多小程序走向国际化了，那么有没有一种工具能够帮我们快速的维护国际化呢？当然是有点，这正是我们今天所有讨论的主题。
     link: miniapp-i18n
     keywords: 微信小程序
-    date: 2018-4-25
+    date: 2019-4-25
     img: /my-blog/miniapp-i18n.jpg
   - title: 防抖(Debounce) & 节流(Throttle)
     description: 浏览器中某些计算和处理非常昂贵。比如当鼠标响应resize, touchmove,scroll等操作时，绑定的函数触发的频率会很高，如果该函数稍微复杂一些，响应速度会远远跟不上触发频率，便会出现卡顿，延迟，假死等现象。
